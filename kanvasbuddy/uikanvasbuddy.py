@@ -19,7 +19,8 @@ from . import (
     kbbuttonbox as btnbox, 
     kbtitlebar as title,
     kblayerbox as lyrbox,
-    presetchooser as prechooser
+    presetchooser as prechooser,
+    kbpanelstack as pnlstk
 )
 import importlib
 
@@ -82,22 +83,27 @@ class UIKanvasBuddy(QDialog):
         importlib.reload(title)
         importlib.reload(lyrbox)
         importlib.reload(prechooser)
+        importlib.reload(pnlstk)
 
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
         self.kbuddy = kbuddy
-        # self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setWindowFlag(Qt.FramelessWindowHint)
 
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
         self.layout().setSpacing(0)
         
-        self.mainWidget = testStackedWidget(self)
-
+        self.mainWidget = pnlstk.KBPanelStack(self)
+        
+        self.layout().addWidget(title.KBTitleBar(self))
+        self.layout().addWidget(self.mainWidget)
+        
         self.mainPanel = QWidget(self)
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
+        
         # PANEL BUTTONS
         self.panelButtons = btnbox.KBButtonBox(self)
 
@@ -175,16 +181,13 @@ class UIKanvasBuddy(QDialog):
         self.mainPanel.layout().addWidget(self.brushProperties)
         self.mainPanel.layout().addWidget(self.canvasOptions)
 
-        self.mainWidget.addWidget(self.mainPanel)
-        self.mainWidget.addWidget(self.presetChooser)
-        self.mainWidget.addWidget(self.layerList)
-
-        self.layout().addWidget(title.KBTitleBar(self))
-        self.layout().addWidget(self.mainWidget)
+        self.mainWidget.addPanel('main', self.mainPanel)
+        self.mainWidget.addPanel('presets', self.presetChooser)
+        self.mainWidget.addPanel('layers', self.layerList)
 
     def launch(self):
+        self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)
         self.brushProperties.slider('size').setValue(self.view.brushSize())
-        self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity())
 
         self.show()
         self.activateWindow()
@@ -198,6 +201,9 @@ class UIKanvasBuddy(QDialog):
     def setPreset(self, preset=None):
         if preset: 
             self.view.activateResource(self.presetChooser.currentPreset())
+            self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)
+            self.brushProperties.slider('size').setValue(self.view.brushSize())
+
         self.mainWidget.setCurrentIndex(0)
 
 

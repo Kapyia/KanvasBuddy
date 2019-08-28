@@ -15,7 +15,7 @@ class KBLayerItem(QWidget):
         self.layout().setContentsMargins(0, 0, 0, 0)
 
         self.layout().addWidget(QToolButton())
-        self.layout().addWidget(QLabel('New Layer'))
+        self.layout().addWidget(QLabel('Layer Placeholder'))
 
 class KBLayerBox(QScrollArea):
 

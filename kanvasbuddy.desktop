@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=kanvasbuddy
+X-Python-2-Compatible=false
+Name=KanvasBuddy
+Comment=Minimal toolbox for speed painting
+

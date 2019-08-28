@@ -5,10 +5,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QSize, Qt
 
-class BuddyLayerItem(QWidget):
+class KBLayerItem(QWidget):
 
     def __init__(self, node=None):
-        super(BuddyLayerItem, self).__init__()
+        super(KBLayerItem, self).__init__()
         self.setLayout(QHBoxLayout(self))
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.node = node
@@ -17,10 +17,10 @@ class BuddyLayerItem(QWidget):
         self.layout().addWidget(QToolButton())
         self.layout().addWidget(QLabel('New Layer'))
 
-class BuddyLayerBox(QScrollArea):
+class KBLayerBox(QScrollArea):
 
     def __init__(self):
-        super(BuddyLayerBox, self).__init__()
+        super(KBLayerBox, self).__init__()
         self.setBackgroundRole(QPalette.Base)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setWidgetResizable(True)
@@ -34,17 +34,17 @@ class BuddyLayerBox(QScrollArea):
         self.setWidget(self.layerList)
 
     def addLayer(self):
-        self.layerList.layout().addWidget(BuddyLayerItem())
+        self.layerList.layout().addWidget(KBLayerItem())
 
-class BuddyLayerWidget(QWidget):
+class KBLayerWidget(QWidget):
 
     def __init__(self, parent):
-        super(BuddyLayerWidget, self).__init__(parent)
+        super(KBLayerWidget, self).__init__(parent)
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.layout().setSpacing(0)
 
-        self.layerBox = BuddyLayerBox()
+        self.layerBox = KBLayerBox()
         self.btn_addLayer = QPushButton('Add')
         self.btn_addLayer.clicked.connect(self.addLayer)
 

@@ -15,10 +15,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QSize, Qt
 from . import (
-    buddysliderbox as sldbox, 
-    buddybuttonbox as btnbox, 
-    buddytitlebar as title,
-    buddylayerbox as lyrbox,
+    kbsliderbox as sldbox, 
+    kbbuttonbox as btnbox, 
+    kbtitlebar as title,
+    kblayerbox as lyrbox,
     presetchooser as prechooser
 )
 import importlib
@@ -52,10 +52,10 @@ class testStackedWidget(QStackedWidget):
         self.adjustSize()
         self.parentWidget().adjustSize()
 
-class BuddyPanel(QWidget):
+class KBPanel(QWidget):
 
     def __init__(self, parent=None):
-        super(BuddyPanel, self).__init__(parent)
+        super(KBPanel, self).__init__(parent)
         self.setLayout(QVBoxLayout)
 
         self.btnClose = QPushButton(self)
@@ -98,7 +98,7 @@ class UIKanvasBuddy(QDialog):
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
         # PANEL BUTTONS
-        self.panelButtons = btnbox.BuddyButtonBox(self)
+        self.panelButtons = btnbox.KBButtonBox(self)
 
         self.panelButtons.addButton('presets')
         self.panelButtons.button('presets').setIcon(self.app.icon('light_paintop_settings_01'))
@@ -133,12 +133,12 @@ class UIKanvasBuddy(QDialog):
         self.btn_exit.setFixedHeight(12)
         self.btn_exit.clicked.connect(lambda: self.mainWidget.setCurrentIndex(0))
 
-        self.layerList = lyrbox.BuddyLayerWidget(self)
+        self.layerList = lyrbox.KBLayerWidget(self)
         self.layerList.layout().addWidget(self.btn_exit)
 
 
         # PRESET PROPERTIES
-        self.brushProperties = sldbox.BuddySliderBox(self)
+        self.brushProperties = sldbox.KBSliderBox(self)
 
         self.brushProperties.addSlider('opacity', 0, 100)
         self.brushProperties.slider('opacity').setAffixes('Op: ', '%')
@@ -153,7 +153,7 @@ class UIKanvasBuddy(QDialog):
 
 
         # CANVAS OPTIONS
-        self.canvasOptions = btnbox.BuddyButtonBox(self, 16)
+        self.canvasOptions = btnbox.KBButtonBox(self, 16)
 
         self.canvasOptions.addButton('presets')
         self.canvasOptions.button('presets').clicked.connect(self.app.action('view_show_canvas_only').trigger)
@@ -178,7 +178,7 @@ class UIKanvasBuddy(QDialog):
         self.mainWidget.addWidget(self.presetChooser)
         self.mainWidget.addWidget(self.layerList)
 
-        self.layout().addWidget(title.BuddyTitleBar(self))
+        self.layout().addWidget(title.KBTitleBar(self))
         self.layout().addWidget(self.mainWidget)
 
     def launch(self):

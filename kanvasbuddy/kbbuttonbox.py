@@ -4,10 +4,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QSize, Qt
 
-class BuddyButton(QToolButton):
+class KBButton(QToolButton):
 
     def __init__(self, size):
-        super(BuddyButton, self).__init__()
+        super(KBButton, self).__init__()
         self.setFixedSize(QSize(size, size))
         # self.setIconSize(QSize(float(size)*.8, float(size)*.8))
     
@@ -29,10 +29,10 @@ class BuddyButton(QToolButton):
         else:
             raise TypeError(f"Unable to set color of invalid type {type(color)}")
 
-class BuddyButtonBox(QWidget):
+class KBButtonBox(QWidget):
 
     def __init__(self, parent, btnSize=32):
-        super(BuddyButtonBox, self).__init__(parent)
+        super(KBButtonBox, self).__init__(parent)
         self.setLayout(QHBoxLayout())
 
         self._buttons = {}
@@ -41,7 +41,7 @@ class BuddyButtonBox(QWidget):
         self.layout().setContentsMargins(0, 0, 0, 0)
 
     def addButton(self, name):
-        self._buttons[name] = BuddyButton(self.btnSize)
+        self._buttons[name] = KBButton(self.btnSize)
         self.layout().addWidget(self._buttons[name])
 
     def setButtonSize(self, size):

@@ -2,10 +2,10 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QSize, Qt
 
-class BuddyTitleBar(QWidget):
+class KBTitleBar(QWidget):
 
     def __init__(self, parent):
-        super(BuddyTitleBar, self).__init__(parent)
+        super(KBTitleBar, self).__init__(parent)
         self.parent = parent
         self.layout = QHBoxLayout()
         self.layout.setContentsMargins(2, 1, 2, 1)

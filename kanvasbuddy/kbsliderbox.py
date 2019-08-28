@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 
-class BuddySlider(object):
+class KBSlider(object):
 
     def __init__(self, min, max):
         self.qslider = QSlider(Qt.Horizontal)
@@ -44,10 +44,10 @@ class BuddySlider(object):
     def connectValueChanged(self, func):
         self.qslider.valueChanged.connect(func)
 
-class BuddySliderBox(QWidget):
+class KBSliderBox(QWidget):
 
     def __init__(self, parent):
-        super(BuddySliderBox, self).__init__(parent)
+        super(KBSliderBox, self).__init__(parent)
         self.setLayout(QGridLayout())
 
         self.layout().setContentsMargins(0, 0, 0, 0)
@@ -55,7 +55,7 @@ class BuddySliderBox(QWidget):
         self.sliders = {}
 
     def addSlider(self, name, min, max):
-        self.sliders[name] = BuddySlider(min, max)
+        self.sliders[name] = KBSlider(min, max)
         newRow = self.layout().rowCount()
         self.layout().addWidget(self.sliders[name].qslider, newRow, 0)
         self.layout().addWidget(self.sliders[name].qspinbox, newRow, 1)

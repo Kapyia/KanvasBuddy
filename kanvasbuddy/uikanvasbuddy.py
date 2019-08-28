@@ -65,10 +65,11 @@ class KBPanel(QWidget):
 
         self.layout().addWidget(self.btnClose)
 
-    def setWidget(self, w)
+    def setWidget(self, w):
         #if self.layout().count() > 1:
         #   remove widget at index 0
-        self.layout().insertWidget(0, w)
+        # self.layout().insertWidget(0, w)
+        pass
 
 
 

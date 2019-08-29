@@ -24,56 +24,6 @@ from . import (
 )
 import importlib
 
-MARGIN = 4
-
-class testStackedWidget(QStackedWidget):
-
-    def __init__(self, parent=None):
-        super(testStackedWidget, self).__init__(parent)
-        super().currentChanged.connect(self.currentChanged)
-
-    def addWidget(self, w):
-        if not self.count() == 0:
-            w.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
-        
-        super().addWidget(w)
-
-    def currentChanged(self, index):
-        for i in range(0, self.count()):
-            policy = QSizePolicy.Ignored
-            if i == index:
-                policy = QSizePolicy.MinimumExpanding
-                self.widget(i).setEnabled(True)
-            else:
-                self.widget(i).setEnabled(False)
-
-            self.widget(i).setSizePolicy(policy, policy)
-
-        self.widget(index).adjustSize()
-        self.adjustSize()
-        self.parentWidget().adjustSize()
-
-class KBPanel(QWidget):
-
-    def __init__(self, parent=None):
-        super(KBPanel, self).__init__(parent)
-        self.setLayout(QVBoxLayout)
-
-        self.btnClose = QPushButton(self)
-        self.btnClose.setIcon(self.app.action('move_layer_up').icon())
-        self.btnClose.setFixedHeight(12)
-        self.btnClose.clicked.connect(lambda: self.parent.setCurrentIndex(0))
-
-        self.layout().addWidget(self.btnClose)
-
-    def setWidget(self, w):
-        #if self.layout().count() > 1:
-        #   remove widget at index 0
-        # self.layout().insertWidget(0, w)
-        pass
-
-
-
 class UIKanvasBuddy(QDialog):
 
     def __init__(self, kbuddy):
@@ -113,11 +63,12 @@ class UIKanvasBuddy(QDialog):
 
         self.panelButtons.addButton('color')
         self.panelButtons.button('color').setIcon(self.app.icon('light_krita_tool_color_picker'))
-        self.panelButtons.button('color').clicked.connect(self.app.action('show_color_selector').trigger)
+        # self.panelButtons.button('color').clicked.connect(self.app.action('show_color_selector').trigger)
+        self.panelButtons.button('color').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
 
         self.panelButtons.addButton('layers')     
         self.panelButtons.button('layers').setIcon(self.app.icon('duplicatelayer'))
-        self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
+        self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
 
 
         # WIDGET: PRESET CHOOSER        
@@ -183,7 +134,9 @@ class UIKanvasBuddy(QDialog):
 
         self.mainWidget.addPanel('main', self.mainPanel)
         self.mainWidget.addPanel('presets', self.presetChooser)
+        self.mainWidget.addPanel('color', self.app.action('show_color_selector').parentWidget())
         self.mainWidget.addPanel('layers', self.layerList)
+
 
     def launch(self):
         self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)

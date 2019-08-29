@@ -2,7 +2,7 @@ from krita import Krita, PresetChooser
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, QEvent
 
 class KBPanel(QWidget):
 
@@ -62,4 +62,11 @@ class KBPanelStack(QStackedWidget):
         self.widget(index).adjustSize()
         self.adjustSize()
         self.parentWidget().adjustSize()
-
+        
+    
+    def event(self, e):
+        ret = super().event(e) # Needs to be called first apparently
+        if e.type() == QEvent.WindowDeactivate:
+            self.setCurrentIndex(0)
+        
+        return ret

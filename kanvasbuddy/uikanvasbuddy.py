@@ -34,7 +34,7 @@ class colorSelectorHolder(QWidget):
             self.setWidget(w)
 
     def sizeHint(self):
-        return QSize(250, 250)
+        return QSize(290, 290)
 
     def setWidget(self, w):
         self.layout().addWidget(w)
@@ -145,9 +145,9 @@ class UIKanvasBuddy(QDialog):
 
 
         # DIALOG CONSTRUCTION
-        self.colorSelectorParent = self.app.action('show_color_selector').parentWidget().parentWidget()
+        self.colorSelectorParent = self.app.action('show_color_selector').parentWidget().parentWidget().parentWidget()
         self.colorSelector = colorSelectorHolder()
-        self.colorSelector.setWidget(self.app.action('show_color_selector').parentWidget())
+        self.colorSelector.setWidget(self.app.action('show_color_selector').parentWidget().parentWidget())
 
         self.mainPanel.layout().addWidget(self.panelButtons)
         self.mainPanel.layout().addWidget(self.brushProperties)
@@ -181,7 +181,8 @@ class UIKanvasBuddy(QDialog):
         self.mainWidget.setCurrentIndex(0)
 
     def closeEvent(self, e):
-        self.colorSelector.widget().setParent(self.colorSelectorParent) # Return to previous parent is else it gets deleted?
+        self.colorSelectorParent.layout().addWidget(self.colorSelector.widget()) # Return to previous parent is else it gets deleted?
+        self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 
 

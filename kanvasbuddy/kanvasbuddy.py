@@ -22,21 +22,18 @@ class KanvasBuddy(Extension):
 
     def __init__(self, parent):
         super(KanvasBuddy, self).__init__(parent)
+        self.isActive = False
 
     def setup(self):
         pass
 
-    def createActions(self, window): # Called by Krita on startup      
+    def createActions(self, window): # Called by Krita on startup
         action = window.createAction("kanvasbuddy", "KanvasBuddy")
         action.setToolTip("Minimal toolbox for speed painting")
         action.triggered.connect(self.launchInterface)
 
     def launchInterface(self):
-        if Krita.instance().activeDocument():
-            importlib.reload(uikanvasbuddy) # Remove for release
-            ui = uikanvasbuddy.UIKanvasBuddy(self)
-            ui.launch()
-        else:
+        if not Krita.instance().activeDocument():
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
             msg.setDefaultButton(QMessageBox.Ok)
@@ -44,8 +41,21 @@ class KanvasBuddy(Extension):
             msg.setText("No active documents found. \n\n" +  
                         "KanvasBuddy requires at least one active document to launch.")
             # msg.setInformativeText("KanvasBuddy requires at least one active document to launch.")
-
             msg.exec_()
-        
+        elif self.isActive:
+            pass
+        else:
+            importlib.reload(uikanvasbuddy) # Remove for release
+            self.isActive = True
+            ui = uikanvasbuddy.UIKanvasBuddy(self)
+            ui.launch()
+
+
+    def setIsActive(self, b):
+        if isinstance(b, bool):
+            self.isActive = b
+        else:
+            raise TypeError("invalid argument; must be a boolean")
+
 # And add the extension to Krita's list of extensions:
 Krita.instance().addExtension(KanvasBuddy(Krita.instance()))

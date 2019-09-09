@@ -42,6 +42,7 @@ class colorSelectorHolder(QWidget):
     def widget(self):
         return self.layout().itemAt(0).widget()
 
+
 class UIKanvasBuddy(QDialog):
 
     def __init__(self, kbuddy):
@@ -81,7 +82,6 @@ class UIKanvasBuddy(QDialog):
 
         self.panelButtons.addButton('color')
         self.panelButtons.button('color').setIcon(self.app.icon('light_krita_tool_color_picker'))
-        # self.panelButtons.button('color').clicked.connect(self.app.action('show_color_selector').trigger)
         self.panelButtons.button('color').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
 
         self.panelButtons.addButton('layers')     
@@ -94,23 +94,11 @@ class UIKanvasBuddy(QDialog):
         self.presetChooser.presetSelected.connect(self.setPreset)
         self.presetChooser.presetClicked.connect(self.setPreset)
 
-        self.btn_back = QPushButton(self)
-        self.btn_back.setIcon(self.app.action('move_layer_up').icon())
-        self.btn_back.setFixedHeight(12)
-        self.btn_back.clicked.connect(lambda: self.mainWidget.setCurrentIndex(0))
-
         self.presetChooser.layout().itemAt(0).widget().layout().removeItem(self.presetChooser.layout().itemAt(0).widget().layout().itemAt(4))
-        self.presetChooser.layout().itemAt(0).widget().layout().addWidget(self.btn_back)
 
 
-        # WIDGET: LAYER BOX
-        self.btn_exit = QPushButton(self)
-        self.btn_exit.setIcon(self.app.action('move_layer_up').icon())
-        self.btn_exit.setFixedHeight(12)
-        self.btn_exit.clicked.connect(lambda: self.mainWidget.setCurrentIndex(0))
-
+        # PANEL: LAYERS
         self.layerList = lyrbox.KBLayerWidget(self)
-        self.layerList.layout().addWidget(self.btn_exit)
 
 
         # PRESET PROPERTIES
@@ -167,10 +155,12 @@ class UIKanvasBuddy(QDialog):
         self.activateWindow()
         self.exec_()
     
+
     def boop(self, text):
         msg = QMessageBox()
         msg.setText(str(text))
         msg.exec_()
+
 
     def setPreset(self, preset=None):
         if preset: 
@@ -179,6 +169,7 @@ class UIKanvasBuddy(QDialog):
             self.brushProperties.slider('size').setValue(self.view.brushSize())
 
         self.mainWidget.setCurrentIndex(0)
+
 
     def closeEvent(self, e):
         self.colorSelectorParent.layout().addWidget(self.colorSelector.widget()) # Return to previous parent is else it gets deleted?

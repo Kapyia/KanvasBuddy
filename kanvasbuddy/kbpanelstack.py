@@ -6,26 +6,29 @@ from PyQt5.QtCore import QSize, Qt, QEvent
 
 class KBPanel(QWidget):
 
-    def __init__(self, widget=None, main=False):
-        super(KBPanel, self).__init__(parent)
-        self.setLayout(QVBoxLayout)
+    def __init__(self, index, widget=None):
+        super(KBPanel, self).__init__()
+        self.setLayout(QVBoxLayout())
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        self.layout().setSpacing(0)
+        
+        if widget:
+            self.layout().addWidget(widget)
 
-        if main: # Valid way of conditionally creating a button?
+        if index > 0: # Valid way of conditionally creating a button?
             self.btnClose = QPushButton(self)
-            self.btnClose.setIcon(self.app.action('move_layer_up').icon())
+            self.btnClose.setIcon(Krita.instance().action('move_layer_up').icon())
             self.btnClose.setFixedHeight(12)
             self.btnClose.clicked.connect(lambda: self.parentWidget().setCurrentIndex(0))
 
             self.layout().addWidget(self.btnClose)
 
-    def setWidget(self, w):
-        #if self.layout().count() > 1:
-        #   remove widget at index 0
-        #self.layout().insertWidget(0, w)
-        pass
 
-    def setMainPanel(self):
-        pass
+    def setWidget(self, w):
+        if self.layout().count() > 1:
+            self.layout().removeItem(self.layout().itemAt(0))
+        self.layout().insertWidget(0, w)
+
 
 class KBPanelStack(QStackedWidget):
 
@@ -35,8 +38,8 @@ class KBPanelStack(QStackedWidget):
         self.panels = {}
         
 
-    def addPanel(self, name, p):
-        self.panels[name] = p
+    def addPanel(self, name, widget):
+        self.panels[name] = KBPanel(self.count(), widget)
 
         if not self.count() == 0:
             self.panels[name].setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)

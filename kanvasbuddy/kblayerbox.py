@@ -16,6 +16,13 @@ class KBLayerItem(QWidget):
 
         self.layout().addWidget(QToolButton())
         self.layout().addWidget(QLabel('Layer Placeholder'))
+    
+    def setNode(self, node):
+        self.node = node
+
+    def node(self):
+        return self.node    
+
 
 class KBLayerBox(QScrollArea):
 
@@ -24,6 +31,7 @@ class KBLayerBox(QScrollArea):
         self.setBackgroundRole(QPalette.Base)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setWidgetResizable(True)
+        self.nodes = []
 
         self.layerList = QWidget(self)
         self.layerList.setLayout(QVBoxLayout())
@@ -33,7 +41,8 @@ class KBLayerBox(QScrollArea):
 
         self.setWidget(self.layerList)
 
-    def addLayer(self):
+    def addLayer(self, node=None):
+        self.nodes.append(node)
         self.layerList.layout().addWidget(KBLayerItem())
 
 class KBLayerWidget(QWidget):

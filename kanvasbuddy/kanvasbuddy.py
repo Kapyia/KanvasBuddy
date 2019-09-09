@@ -40,7 +40,6 @@ class KanvasBuddy(Extension):
             msg.setWindowTitle('KanvasBuddy')
             msg.setText("No active documents found. \n\n" +  
                         "KanvasBuddy requires at least one active document to launch.")
-            # msg.setInformativeText("KanvasBuddy requires at least one active document to launch.")
             msg.exec_()
         elif self.isActive:
             pass

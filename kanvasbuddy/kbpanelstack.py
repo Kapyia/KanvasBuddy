@@ -18,6 +18,7 @@ class KBPanel(QWidget):
         if index > 0: # Valid way of conditionally creating a button?
             self.btnClose = QPushButton(self)
             self.btnClose.setIcon(Krita.instance().action('move_layer_up').icon())
+            self.btnClose.setIconSize(QSize(10, 10))
             self.btnClose.setFixedHeight(12)
             self.btnClose.clicked.connect(lambda: self.parentWidget().setCurrentIndex(0))
 

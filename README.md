@@ -44,6 +44,7 @@ Happy painting! :)
 ## Known issues
 - KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability
 - KB features virtually no crash handling and a new instance can't be opened if the plugin doesn't exit cleanly
+- Sliders and values might not synchronize properly between KB and Krita
 
 Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
 

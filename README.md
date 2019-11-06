@@ -22,13 +22,11 @@ KB is best suited to someone who's workflow more closely resembles that of a tra
 - KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability
 - KB features virtually no crash handling and a new instance can't be opened if the plugin doesn't exit cleanly
 
-Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. *Beware of the spaghetti.* The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
+Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of the spaghetti.** The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
 
 ## License
 
 #### The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
-
-![CC](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png "CC BY-NC-SA 4.0")
 
 You are free to:
 + Share — copy and redistribute the material in any medium or format
@@ -39,5 +37,7 @@ Under the following terms:
 + NonCommercial — You may not use the material for commercial purposes.
 + ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 + No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+![CC](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png "CC BY-NC-SA 4.0")
 
 (tl;dr one is free to download, modify and redistribute this plugin as long as it remains so)

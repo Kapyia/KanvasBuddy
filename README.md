@@ -19,6 +19,7 @@ KanvasBuddy 0.1 features:
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/main_panel.png" alt="KB Main" width="100"></td>
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/advanced_color_selector.png" alt="Advanced Color Selector" width="100"></td>
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/brush_preset_list.png" alt="Brush Presets" width="100"></td>
+    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/real_size.png" alt="Brush Presets" width="100"></td>
   </tr>
 </table>
 

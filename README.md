@@ -1,6 +1,8 @@
 # KanvasBuddy 0.1
 A minimalist toolbar plugin for Krita 
 
+![KB Main](https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/main_panel.png)
+
 **(KB has been abandoned by it's original developer. I've hit a point where limitations to the Krita Python API and the PyQt5 bindings are giving me more frustration than joy working on the project.)**
 
 ## What is KanvasBuddy?
@@ -12,11 +14,22 @@ KanvasBuddy 0.1 features:
 - Krita's Advanced Color Selector (very literally) - size large!
 - Brush Opacity and Size controls
 - Quick buttons for Canvas-Only Mode, Mirror Canvas and Reset Zoom 
+<table>
+  <tr>
+    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/main_panel.png" alt="KB Main" width="100"></td>
+    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/advanced_color_selector.png" alt="Advanced Color Selector" width="100"></td>
+    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/brush_preset_list.png" alt="Brush Presets" width="100"></td>
+  </tr>
+</table>
 
 ## Who is KanvasBuddy for?
 To be blunt, the intended user for KB has always been myself. Catering to the needs of a single artist made it easier to keep the number of features - and thus the size of the dialog - to an absolute minimum.
 
 KB is best suited to someone who's workflow more closely resembles that of a traditional painter and who is already well-versed in Krita's shortcuts. 
+
+## Installation
+Unpack the **kanvasbuddy-0-1.zip** archive in the **pykrita** directory, et voilà! Installed!
+Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-1.zip** archive and let the software handle it.
 
 ## Known issues
 - KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability

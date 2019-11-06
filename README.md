@@ -36,7 +36,7 @@ Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python 
 - KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability
 - KB features virtually no crash handling and a new instance can't be opened if the plugin doesn't exit cleanly
 
-Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of the spaghetti.** The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
+Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
 
 ## License
 
@@ -54,4 +54,4 @@ Under the following terms:
 
 ![CC](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png "CC BY-NC-SA 4.0")
 
-(tl;dr one is free to download, modify and redistribute this plugin as long as it remains so)
+(tl;dr one is free to download, modify and redistribute this plugin as long as that ability is preserved)

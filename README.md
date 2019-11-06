@@ -28,8 +28,13 @@ To be blunt, the intended user for KB has always been myself. Catering to the ne
 
 KB is best suited to someone who's workflow more closely resembles that of a traditional painter and who is already well-versed in Krita's shortcuts. 
 
-## Installation
-Unpack the **kanvasbuddy-0-1.zip** archive in the **pykrita** directory, et voilà! Installed!
+## Download & Installation
+
+#### Downloads:
++ **[ZIP ARCHIVE](https://drive.google.com/file/d/1EBV67oSx3MTJoz2CuSMxpdbuOMhtAxEp/view?usp=sharing)**
++ **[SOURCE](https://drive.google.com/file/d/1EBV67oSx3MTJoz2CuSMxpdbuOMhtAxEp/view?usp=sharing)**
+
+Open the **kanvasbuddy-0-1.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
 Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-1.zip** archive and let the software handle it.
 
 ## Known issues

@@ -54,4 +54,4 @@ Under the following terms:
 
 ![CC](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png "CC BY-NC-SA 4.0")
 
-(tl;dr one is able to freely download, modify and redistribute this plugin as long as that ability is preserved)
+(tl;dr one is able to freely download, modify and redistribute this plugin as long as that ability is preserved and contributors are proprely credited)

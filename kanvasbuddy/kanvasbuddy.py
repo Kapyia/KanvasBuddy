@@ -1,16 +1,17 @@
-# This script is licensed CC 0 1.0, so that you can learn from it.
+# The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
 
-# ------ CC 0 1.0 ---------------
+# You are free to:
+# Share — copy and redistribute the material in any medium or format
+# Adapt — remix, transform, and build upon the material
 
-# The person who associated a work with this deed has dedicated the
-# work to the public domain by waiving all of his or her rights to the
-# work worldwide under copyright law, including all related and
-# neighboring rights, to the extent allowed by law.
+# Under the following terms:
+# Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+# NonCommercial — You may not use the material for commercial purposes.
+# ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+# No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
-# You can copy, modify, distribute and perform the work, even for
-# commercial purposes, all without asking permission.
-
-# https://creativecommons.org/publicdomain/zero/1.0/legalcode
+# CONTRIBUTORS
+# Kapyia @ https://krita-artists.org/ 
 
 import importlib
 
@@ -44,7 +45,7 @@ class KanvasBuddy(Extension):
         elif self.isActive:
             pass
         else:
-            importlib.reload(uikanvasbuddy) # Remove for release
+            # importlib.reload(uikanvasbuddy) # FOR TESTING ONLY
             self.isActive = True
             ui = uikanvasbuddy.UIKanvasBuddy(self)
             ui.launch()

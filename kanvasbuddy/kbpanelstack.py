@@ -1,7 +1,18 @@
-from krita import Krita, PresetChooser
+# The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+# You are free to:
+# Share — copy and redistribute the material in any medium or format
+# Adapt — remix, transform, and build upon the material
+
+# Under the following terms:
+# Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+# NonCommercial — You may not use the material for commercial purposes.
+# ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+# No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+from krita import Krita
+
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy
 from PyQt5.QtCore import QSize, Qt, QEvent
 
 class KBPanel(QWidget):
@@ -69,7 +80,7 @@ class KBPanelStack(QStackedWidget):
         
     
     def event(self, e):
-        ret = super().event(e) # Needs to be called first apparently
+        ret = super().event(e) # Needs to be called first, apparently
         if e.type() == QEvent.WindowDeactivate:
             self.setCurrentIndex(0)
         

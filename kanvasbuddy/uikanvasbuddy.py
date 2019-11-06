@@ -1,58 +1,39 @@
-# WISHLIST:
-#   Wrapper for KisColorSelector 
-#   Access to "Zoom to Page" or the canvas view size
+# The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
 
-# TODO:
-#   Better icon for color picker
-#   Resize Up Arrow Icon for the button that closes larger widgets
-#   Make a "large widget" widget that has the close button built in
-#   Layer box
-#
+# You are free to:
+# Share — copy and redistribute the material in any medium or format
+# Adapt — remix, transform, and build upon the material
 
+# Under the following terms:
+# Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+# NonCommercial — You may not use the material for commercial purposes.
+# ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+# No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+import importlib
 from krita import Krita, PresetChooser
-
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QWidget, QDialog, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QSize, Qt
+
 from . import (
     kbsliderbox as sldbox, 
     kbbuttonbox as btnbox, 
     kbtitlebar as title,
-    kblayerbox as lyrbox,
     presetchooser as prechooser,
+    kbcolorselectorframe as clrsel,
     kbpanelstack as pnlstk
 )
-import importlib
-
-class colorSelectorHolder(QWidget):
-
-    def __init__(self, w=None):
-        super(colorSelectorHolder, self).__init__()
-        self.setLayout(QVBoxLayout())
-        self.layout().setContentsMargins(0, 0, 0, 0)
-        if w:
-            self.setWidget(w)
-
-    def sizeHint(self):
-        return QSize(290, 290)
-
-    def setWidget(self, w):
-        self.layout().addWidget(w)
-
-    def widget(self):
-        return self.layout().itemAt(0).widget()
-
 
 class UIKanvasBuddy(QDialog):
 
     def __init__(self, kbuddy):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
-        importlib.reload(sldbox)
-        importlib.reload(btnbox)
-        importlib.reload(title)
-        importlib.reload(lyrbox)
-        importlib.reload(prechooser)
-        importlib.reload(pnlstk)
+        # -- FOR TESTING ONLY --
+        # importlib.reload(sldbox)
+        # importlib.reload(btnbox)
+        # importlib.reload(title)
+        # importlib.reload(prechooser)
+        # importlib.reload(pnlstk)
 
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
@@ -84,21 +65,11 @@ class UIKanvasBuddy(QDialog):
         self.panelButtons.button('color').setIcon(self.app.icon('light_krita_tool_color_picker'))
         self.panelButtons.button('color').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
 
-        self.panelButtons.addButton('layers')     
-        self.panelButtons.button('layers').setIcon(self.app.icon('duplicatelayer'))
-        self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
-
 
         # WIDGET: PRESET CHOOSER        
-        self.presetChooser = PresetChooser()
+        self.presetChooser = prechooser.KBPresetChooser()
         self.presetChooser.presetSelected.connect(self.setPreset)
         self.presetChooser.presetClicked.connect(self.setPreset)
-
-        self.presetChooser.layout().itemAt(0).widget().layout().removeItem(self.presetChooser.layout().itemAt(0).widget().layout().itemAt(4))
-
-
-        # PANEL: LAYERS
-        self.layerList = lyrbox.KBLayerWidget(self)
 
 
         # PRESET PROPERTIES
@@ -132,10 +103,9 @@ class UIKanvasBuddy(QDialog):
         self.canvasOptions.button('reset_view').setIcon(self.app.action('zoom_to_100pct').icon())
 
 
-        # DIALOG CONSTRUCTION
+        # MAIN DIALOG CONSTRUCTION
         self.colorSelectorParent = self.app.action('show_color_selector').parentWidget().parentWidget().parentWidget()
-        self.colorSelector = colorSelectorHolder()
-        self.colorSelector.setWidget(self.app.action('show_color_selector').parentWidget().parentWidget())
+        self.colorSelector = clrsel.KBColorSelectorFrame(self.app.action('show_color_selector').parentWidget().parentWidget())
 
         self.mainPanel.layout().addWidget(self.panelButtons)
         self.mainPanel.layout().addWidget(self.brushProperties)
@@ -144,7 +114,6 @@ class UIKanvasBuddy(QDialog):
         self.mainWidget.addPanel('main', self.mainPanel)
         self.mainWidget.addPanel('presets', self.presetChooser)
         self.mainWidget.addPanel('color', self.colorSelector)
-        self.mainWidget.addPanel('layers', self.layerList)
 
 
     def launch(self):
@@ -172,7 +141,7 @@ class UIKanvasBuddy(QDialog):
 
 
     def closeEvent(self, e):
-        self.colorSelectorParent.layout().addWidget(self.colorSelector.widget()) # Return to previous parent is else it gets deleted?
+        self.colorSelectorParent.layout().addWidget(self.colorSelector.widget()) # Return to previous parent or else it gets deleted?
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 

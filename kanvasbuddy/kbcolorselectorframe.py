@@ -10,15 +10,22 @@
 # ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 # No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
 
-from krita import PresetChooser
+from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtCore import QSize
 
-class KBPresetChooser(PresetChooser):
+class KBColorSelectorFrame(QWidget):
+    def __init__(self, w=None):
+        super(KBColorSelectorFrame, self).__init__()
+        self.setLayout(QVBoxLayout())
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        if w:
+            self.layout().addWidget(w)
 
-    def __init__(self, parent=None):
-        super(KBPresetChooser, self).__init__(parent)
-        # Remove buttons deemed excessive for this plugin
-        self.layout().itemAt(0).widget().layout().itemAt(4).removeItem(self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,0))
-        self.layout().itemAt(0).widget().layout().itemAt(4).removeItem(self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,1))
-        self.layout().itemAt(0).widget().layout().removeItem(self.layout().itemAt(0).widget().layout().itemAt(4))
+    def sizeHint(self):
+        return QSize(290, 290)
 
+    def setWidget(self, w):
+        self.layout().addWidget(w)
 
+    def widget(self):
+        return self.layout().itemAt(0).widget()

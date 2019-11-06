@@ -39,3 +39,5 @@ Under the following terms:
 + NonCommercial — You may not use the material for commercial purposes.
 + ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 + No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+(tl;dr anyone is free to download, modify and redistribute this plugin as long as it keeps being so)

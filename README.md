@@ -37,6 +37,10 @@ KB is best suited to someone who's workflow more closely resembles that of a tra
 Open the **kanvasbuddy-0-1.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
 Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-1.zip** archive and let the software handle it.
 
+To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Manager** and click the checkbox to the left of the field that says **KanvasBuddy**. When you want to launch KB, simply go to **Tools** -> **Scripts** and select **KanvasBuddy**. Please not that KanvasBuddy require you to have an open document to work.
+
+Happy painting! :)
+
 ## Known issues
 - KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability
 - KB features virtually no crash handling and a new instance can't be opened if the plugin doesn't exit cleanly

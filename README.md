@@ -1,17 +1,16 @@
-# KanvasBuddy 0.1
+# KanvasBuddy 0.2
 A minimalist toolbar for Krita 
 
 ![KB Main](https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/main_panel.png)
 
-**(KB has been abandoned by it's original developer. I've hit a point where limitations to the Krita Python API and the PyQt5 bindings are giving me more frustration than joy working on the project.)**
-
 ## What is KanvasBuddy?
 KanvasBuddy is a Python plugin made for Krita, a free professional and open-source painting program. KB is a small dialog that floats on top of the canvas packed with enough features to let you spend as much time in Canvas-Only mode as possible. The goal of KB is to provide artists with the 20% of tools they use 80% of the time in the most out-of-the-way GUI possible. It's features are very similar to that of Krita's own Pop-Up Palett, but tries to be more more space efficient by showing features more selectively.
 
-KanvasBuddy 0.1 features:
+KanvasBuddy 0.2 features:
 
 - Krita's full Brush Presets list
 - Krita's Advanced Color Selector (very literally) - size large!
+- Krita's Layers Docker
 - Brush Opacity and Size controls
 - Quick buttons for Canvas-Only Mode, Mirror Canvas and Reset Zoom 
 <table>
@@ -31,22 +30,21 @@ KB is best suited to someone who's workflow more closely resembles that of a tra
 ## Download & Installation
 
 #### Downloads:
-+ **[ZIP ARCHIVE](https://drive.google.com/file/d/1NSF1_7-yyUfBBTwjt9CHa4DeXldL2WYK/view?usp=sharing)**
++ **[ZIP ARCHIVE](https://drive.google.com/file/d/1QRMH3b2OsjButrI-MlzlGV4qA2u-c0t6/view?usp=sharing)**
 + **[SOURCE](https://github.com/Kapyia/KanvasBuddy)**
 
-Open the **kanvasbuddy-0-1.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
-Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-1.zip** archive and let the software handle it.
+Open the **kanvasbuddy-0-2.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
+Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-2.zip** archive and let the software handle it.
 
 To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Manager** and click the checkbox to the left of the field that says **KanvasBuddy**. When you want to launch KB, simply go to **Tools** -> **Scripts** and select **KanvasBuddy**. Please not that KanvasBuddy require you to have an open document to work.
 
 Happy painting! :)
 
 ## Known issues
-- KB borrows the actual Advanced Color Selector and unfortunately breaks it's resizability
 - KB features virtually no crash handling and a new instance can't be opened if the plugin doesn't exit cleanly
 - Sliders and values might not synchronize properly between KB and Krita
 
-Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but I can't guarantee it'll work well for people on other systems and/or machines.
+Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but unfortunately I can't guarantee it'll work well for people on other systems and/or machines.
 
 ## License
 

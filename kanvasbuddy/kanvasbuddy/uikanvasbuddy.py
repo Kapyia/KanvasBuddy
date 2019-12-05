@@ -65,6 +65,10 @@ class UIKanvasBuddy(QDialog):
         self.panelButtons.button('color').setIcon(self.app.icon('light_krita_tool_color_picker'))
         self.panelButtons.button('color').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
 
+        self.panelButtons.addButton('layers')
+        self.panelButtons.button('layers').setIcon(self.app.icon('light_duplicatelayer'))
+        self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
+
 
         # WIDGET: PRESET CHOOSER        
         self.presetChooser = prechooser.KBPresetChooser()
@@ -105,7 +109,10 @@ class UIKanvasBuddy(QDialog):
 
         # MAIN DIALOG CONSTRUCTION
         self.colorSelectorParent = self.app.action('show_color_selector').parentWidget().parentWidget().parentWidget()
-        self.colorSelector = clrsel.KBColorSelectorFrame(self.app.action('show_color_selector').parentWidget().parentWidget())
+        self.colorSelector = clrsel.KBColorSelectorFrame(self.app.action('show_color_selector').parentWidget().parentWidget()) # Borrow the Advanced Color Selector
+
+        self.layerBoxParent = self.app.action('help_about_app').parentWidget().findChild(QWidget, 'KisLayerBox') 
+        self.layerBox = self.layerBoxParent.widget() # Borrow the Layer Docker
 
         self.mainPanel.layout().addWidget(self.panelButtons)
         self.mainPanel.layout().addWidget(self.brushProperties)
@@ -114,6 +121,7 @@ class UIKanvasBuddy(QDialog):
         self.mainWidget.addPanel('main', self.mainPanel)
         self.mainWidget.addPanel('presets', self.presetChooser)
         self.mainWidget.addPanel('color', self.colorSelector)
+        self.mainWidget.addPanel('layers', self.layerBox)
 
 
     def launch(self):
@@ -141,7 +149,9 @@ class UIKanvasBuddy(QDialog):
 
 
     def closeEvent(self, e):
-        self.colorSelectorParent.layout().addWidget(self.colorSelector.widget()) # Return to previous parent or else it gets deleted?
+        # Return borrowed widgets to previous parents or else we're doomed
+        self.colorSelectorParent.setWidget(self.colorSelector.widget()) 
+        self.layerBoxParent.setWidget(self.layerBox)
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 

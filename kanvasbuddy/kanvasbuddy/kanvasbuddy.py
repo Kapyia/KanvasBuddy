@@ -25,13 +25,16 @@ class KanvasBuddy(Extension):
         super(KanvasBuddy, self).__init__(parent)
         self.isActive = False
 
+
     def setup(self):
         pass
+
 
     def createActions(self, window): # Called by Krita on startup
         action = window.createAction("kanvasbuddy", "KanvasBuddy")
         action.setToolTip("Minimal toolbox for speed painting")
         action.triggered.connect(self.launchInterface)
+
 
     def launchInterface(self):
         if not Krita.instance().activeDocument():

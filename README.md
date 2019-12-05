@@ -4,7 +4,7 @@ A minimalist toolbar for Krita
 ![KB Main](https://github.com/Kapyia/KanvasBuddy/blob/master/screenshots/main_panel.png)
 
 ## What is KanvasBuddy?
-KanvasBuddy is a Python plugin made for Krita, a free professional and open-source painting program. KB is a small dialog that floats on top of the canvas packed with enough features to let you spend as much time in Canvas-Only mode as possible. The goal of KB is to provide artists with the 20% of tools they use 80% of the time in the most out-of-the-way GUI possible. It's features are very similar to that of Krita's own Pop-Up Palett, but tries to be more more space efficient by showing features more selectively.
+KanvasBuddy is a Python plugin made for Krita, a free professional and open-source painting program. KB is a small dialog that floats on top of the canvas packed with enough features to let you spend as much time in Canvas-Only mode as possible. The goal of KB is to provide artists with the 20% of tools they use 80% of the time in the most out-of-the-way GUI possible. Its features are very similar to that of Krita's own Pop-Up Palette, but tries to be more space efficient by showing features more selectively.
 
 KanvasBuddy 0.2 features:
 

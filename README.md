@@ -36,7 +36,7 @@ KB is best suited to someone who's workflow more closely resembles that of a tra
 ## Download & Installation
 
 #### Downloads:
-+ **[ZIP ARCHIVE](https://drive.google.com/file/d/1QRMH3b2OsjButrI-MlzlGV4qA2u-c0t6/view?usp=sharing)**
++ **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/kanvasbuddy-0-3.zip)**
 + **[SOURCE](https://github.com/Kapyia/KanvasBuddy)**
 
 Open the **kanvasbuddy-0-3.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!

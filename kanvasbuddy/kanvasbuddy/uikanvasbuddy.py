@@ -1,19 +1,22 @@
-# The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
+# This file is part of KanvasBuddy.
 
-# You are free to:
-# Share — copy and redistribute the material in any medium or format
-# Adapt — remix, transform, and build upon the material
+# KanvasBuddy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
 
-# Under the following terms:
-# Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-# NonCommercial — You may not use the material for commercial purposes.
-# ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-# No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+# Foobar is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 import importlib
 from krita import Krita, PresetChooser
-from PyQt5.QtWidgets import QWidget, QDialog, QVBoxLayout, QMessageBox
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
+from PyQt5.QtCore import QSize, Qt, QEvent
 
 from . import (
     kbsliderbox as sldbox, 
@@ -24,7 +27,7 @@ from . import (
     kbpanelstack as pnlstk
 )
 
-class UIKanvasBuddy(QDialog):
+class UIKanvasBuddy(QWidget):
 
     def __init__(self, kbuddy):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
@@ -38,7 +41,10 @@ class UIKanvasBuddy(QDialog):
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
         self.kbuddy = kbuddy
-        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setWindowFlags(
+            Qt.Tool | 
+            Qt.FramelessWindowHint
+            )
 
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
@@ -52,8 +58,8 @@ class UIKanvasBuddy(QDialog):
         self.mainPanel = QWidget(self)
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
-
         
+
         # PANEL BUTTONS
         self.panelButtons = btnbox.KBButtonBox(self)
 
@@ -70,10 +76,20 @@ class UIKanvasBuddy(QDialog):
         self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
 
 
-        # WIDGET: PRESET CHOOSER        
+        # PANEL: PRESET CHOOSER        
         self.presetChooser = prechooser.KBPresetChooser()
         self.presetChooser.presetSelected.connect(self.setPreset)
         self.presetChooser.presetClicked.connect(self.setPreset)
+
+
+        # PANEL: ADVANCED COLOR SELECTOR
+        self.colorSelectorParent = self.app.activeWindow().qwindow().findChild(QWidget, 'ColorSelectorNg') 
+        self.colorSelector = clrsel.KBColorSelectorFrame(self.colorSelectorParent.widget()) # Borrow the Advanced Color Selector
+
+
+        # PANEL: LAYERS
+        self.layerBoxParent = self.app.activeWindow().qwindow().findChild(QWidget, 'KisLayerBox') 
+        self.layerBox = self.layerBoxParent.widget() # Borrow the Layer Docker
 
 
         # PRESET PROPERTIES
@@ -108,12 +124,6 @@ class UIKanvasBuddy(QDialog):
 
 
         # MAIN DIALOG CONSTRUCTION
-        self.colorSelectorParent = self.app.action('show_color_selector').parentWidget().parentWidget().parentWidget()
-        self.colorSelector = clrsel.KBColorSelectorFrame(self.app.action('show_color_selector').parentWidget().parentWidget()) # Borrow the Advanced Color Selector
-
-        self.layerBoxParent = self.app.action('help_about_app').parentWidget().findChild(QWidget, 'KisLayerBox') 
-        self.layerBox = self.layerBoxParent.widget() # Borrow the Layer Docker
-
         self.mainPanel.layout().addWidget(self.panelButtons)
         self.mainPanel.layout().addWidget(self.brushProperties)
         self.mainPanel.layout().addWidget(self.canvasOptions)
@@ -129,11 +139,10 @@ class UIKanvasBuddy(QDialog):
         self.brushProperties.slider('size').setValue(self.view.brushSize())
 
         self.show()
-        self.activateWindow()
-        self.exec_()
-    
+        # self.activateWindow()    
 
-    def boop(self, text):
+
+    def boop(self, text): # Print a message to a dialog box
         msg = QMessageBox()
         msg.setText(str(text))
         msg.exec_()
@@ -154,7 +163,6 @@ class UIKanvasBuddy(QDialog):
         self.layerBoxParent.setWidget(self.layerBox)
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
-
 
         
 

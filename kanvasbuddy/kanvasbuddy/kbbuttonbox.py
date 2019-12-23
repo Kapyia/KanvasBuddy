@@ -1,21 +1,21 @@
-# The KanvasBuddy Krita plugin is licensed under CC BY-NC-SA 4.0
+# This file is part of KanvasBuddy.
 
-# You are free to:
-# Share — copy and redistribute the material in any medium or format
-# Adapt — remix, transform, and build upon the material
+# KanvasBuddy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
 
-# Under the following terms:
-# Attribution — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-# NonCommercial — You may not use the material for commercial purposes.
-# ShareAlike — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-# No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+# Foobar is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-# CONTRIBUTORS
-# Kapyia @ https://krita-artists.org/ 
+# You should have received a copy of the GNU General Public License
+# along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QToolButton
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QColor
-from PyQt5.QtCore import QSize
+from PyQt5.QtCore import QSize, Qt
 
 class KBButton(QToolButton):
 
@@ -54,6 +54,7 @@ class KBButtonBox(QWidget):
 
     def addButton(self, name):
         self._buttons[name] = KBButton(self.btnSize)
+        self._buttons[name].setFocusPolicy(Qt.NoFocus)
         self.layout().addWidget(self._buttons[name])
 
     def setButtonSize(self, size):

@@ -20,29 +20,12 @@ from PyQt5.QtCore import QSize, Qt, QEvent
 
 class KBPanel(QWidget):
 
-    def __init__(self, index, widget=None):
+    def __init__(self, widget):
         super(KBPanel, self).__init__()
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.layout().setSpacing(0)
-        
-        if widget:
-            self.layout().addWidget(widget)
-
-        if index > 0: # Valid way of conditionally creating a button?
-            self.btnClose = QPushButton(self)
-            self.btnClose.setIcon(Krita.instance().action('move_layer_up').icon())
-            self.btnClose.setIconSize(QSize(10, 10))
-            self.btnClose.setFixedHeight(12)
-            self.btnClose.clicked.connect(lambda: self.parentWidget().setCurrentIndex(0))
-
-            self.layout().addWidget(self.btnClose)
-
-
-    def setWidget(self, w):
-        if self.layout().count() > 1:
-            self.layout().removeItem(self.layout().itemAt(0))
-        self.layout().insertWidget(0, w)
+        self.layout().addWidget(widget)
 
 
 class KBPanelStack(QStackedWidget):
@@ -54,14 +37,22 @@ class KBPanelStack(QStackedWidget):
         
 
     def addPanel(self, name, widget):
-        self.panels[name] = KBPanel(self.count(), widget)
+        panel = KBPanel(widget)
 
-        if not self.count() == 0:
-            self.panels[name].setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
-        
-        super().addWidget(self.panels[name])
+        if self.count() > 0:
+            panel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
 
+            btnClose = QPushButton(self)
+            btnClose.setIcon(Krita.instance().action('move_layer_up').icon())
+            btnClose.setIconSize(QSize(10, 10))
+            btnClose.setFixedHeight(12)
+            btnClose.clicked.connect(lambda: self.setCurrentIndex(0))
 
+            panel.layout().addWidget(btnClose)
+
+        self.panels[name] = panel
+        super().addWidget(panel)
+    
     def panel(self, name):
         return self.panels[name]
 
@@ -70,14 +61,14 @@ class KBPanelStack(QStackedWidget):
         for i in range(0, self.count()):
             policy = QSizePolicy.Ignored
             if i == index:
-                policy = QSizePolicy.MinimumExpanding
+                policy = QSizePolicy.Expanding
                 self.widget(i).setEnabled(True)
             else:
                 self.widget(i).setEnabled(False)
 
             self.widget(i).setSizePolicy(policy, policy)
 
-        self.widget(index).adjustSize()
+        # self.widget(index).adjustSize()
         self.adjustSize()
         self.parentWidget().adjustSize()
         

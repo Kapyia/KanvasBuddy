@@ -14,7 +14,7 @@
 # along with KanvasBuddy. If not, see <https://www.gnu.org/licenses/>.
 
 import importlib
-from krita import Krita, PresetChooser
+from krita import Krita
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QSize, Qt, QEvent
 
@@ -27,6 +27,11 @@ from . import (
     kbpanelstack as pnlstk
 )
 
+def boop(text): # Print a message to a dialog box
+    msg = QMessageBox()
+    msg.setText(str(text))
+    msg.exec_()
+
 class UIKanvasBuddy(QWidget):
 
     def __init__(self, kbuddy):
@@ -37,7 +42,7 @@ class UIKanvasBuddy(QWidget):
         # importlib.reload(title)
         # importlib.reload(prechooser)
         # importlib.reload(pnlstk)
-
+        
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
         self.kbuddy = kbuddy
@@ -55,13 +60,13 @@ class UIKanvasBuddy(QWidget):
         self.layout().addWidget(title.KBTitleBar(self))
         self.layout().addWidget(self.mainWidget)
         
+        # PANEL: MAIN
         self.mainPanel = QWidget(self)
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
-        
 
-        # PANEL BUTTONS
-        self.panelButtons = btnbox.KBButtonBox(self)
+        
+        self.panelButtons = btnbox.KBButtonBox(self) # PANEL BUTTONS
 
         self.panelButtons.addButton('presets')
         self.panelButtons.button('presets').setIcon(self.app.icon('light_paintop_settings_01'))
@@ -74,6 +79,36 @@ class UIKanvasBuddy(QWidget):
         self.panelButtons.addButton('layers')
         self.panelButtons.button('layers').setIcon(self.app.icon('light_duplicatelayer'))
         self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
+
+        
+        self.brushProperties = sldbox.KBSliderBox(self) # PRESET PROPERTIES
+
+        self.brushProperties.addSlider('opacity', 0, 100)
+        self.brushProperties.slider('opacity').setAffixes('Opacity: ', '%')
+        self.brushProperties.slider('opacity').connectValueChanged(
+            lambda: 
+                self.view.setPaintingOpacity(self.brushProperties.slider('opacity').value()/100)
+            )
+
+        self.brushProperties.addSlider('size', 1, 1000)
+        self.brushProperties.slider('size').setAffixes('Size: ', ' px')
+        self.brushProperties.slider('size').setScaling(3)
+        self.brushProperties.slider('size').connectValueChanged(self.view.setBrushSize)
+
+
+        self.canvasOptions = btnbox.KBButtonBox(self, 16) # CANVAS OPTIONS
+
+        self.canvasOptions.addButton('presets')
+        self.canvasOptions.button('presets').clicked.connect(self.app.action('view_show_canvas_only').trigger)
+        self.canvasOptions.button('presets').setIcon(self.app.action('view_show_canvas_only').icon())
+
+        self.canvasOptions.addButton('mirror')
+        self.canvasOptions.button('mirror').clicked.connect(self.app.action('mirror_canvas').trigger)
+        self.canvasOptions.button('mirror').setIcon(self.app.action('mirror_canvas').icon())
+
+        self.canvasOptions.addButton('reset_view')
+        self.canvasOptions.button('reset_view').clicked.connect(self.app.action('zoom_to_100pct').trigger)
+        self.canvasOptions.button('reset_view').setIcon(self.app.action('zoom_to_100pct').icon())
 
 
         # PANEL: PRESET CHOOSER        
@@ -92,37 +127,6 @@ class UIKanvasBuddy(QWidget):
         self.layerBox = self.layerBoxParent.widget() # Borrow the Layer Docker
 
 
-        # PRESET PROPERTIES
-        self.brushProperties = sldbox.KBSliderBox(self)
-
-        self.brushProperties.addSlider('opacity', 0, 100)
-        self.brushProperties.slider('opacity').setAffixes('Op: ', '%')
-        self.brushProperties.slider('opacity').connectValueChanged(
-            lambda: 
-                self.view.setPaintingOpacity(self.brushProperties.slider('opacity').value()/100)
-            )
-
-        self.brushProperties.addSlider('size', 0, 1000)
-        self.brushProperties.slider('size').setAffixes('Sz: ', ' px')
-        self.brushProperties.slider('size').connectValueChanged(self.view.setBrushSize)
-
-
-        # CANVAS OPTIONS
-        self.canvasOptions = btnbox.KBButtonBox(self, 16)
-
-        self.canvasOptions.addButton('presets')
-        self.canvasOptions.button('presets').clicked.connect(self.app.action('view_show_canvas_only').trigger)
-        self.canvasOptions.button('presets').setIcon(self.app.action('view_show_canvas_only').icon())
-
-        self.canvasOptions.addButton('mirror')
-        self.canvasOptions.button('mirror').clicked.connect(self.app.action('mirror_canvas').trigger)
-        self.canvasOptions.button('mirror').setIcon(self.app.action('mirror_canvas').icon())
-
-        self.canvasOptions.addButton('reset_view')
-        self.canvasOptions.button('reset_view').clicked.connect(self.app.action('zoom_to_100pct').trigger)
-        self.canvasOptions.button('reset_view').setIcon(self.app.action('zoom_to_100pct').icon())
-
-
         # MAIN DIALOG CONSTRUCTION
         self.mainPanel.layout().addWidget(self.panelButtons)
         self.mainPanel.layout().addWidget(self.brushProperties)
@@ -131,7 +135,7 @@ class UIKanvasBuddy(QWidget):
         self.mainWidget.addPanel('main', self.mainPanel)
         self.mainWidget.addPanel('presets', self.presetChooser)
         self.mainWidget.addPanel('color', self.colorSelector)
-        self.mainWidget.addPanel('layers', self.layerBox)
+        self.mainWidget.addPanel('layers', self.layerBox)        
 
 
     def launch(self):
@@ -139,13 +143,6 @@ class UIKanvasBuddy(QWidget):
         self.brushProperties.slider('size').setValue(self.view.brushSize())
 
         self.show()
-        # self.activateWindow()    
-
-
-    def boop(self, text): # Print a message to a dialog box
-        msg = QMessageBox()
-        msg.setText(str(text))
-        msg.exec_()
 
 
     def setPreset(self, preset=None):
@@ -164,6 +161,9 @@ class UIKanvasBuddy(QWidget):
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 
+
+    def mousePressEvent(self, e):
+        self.setFocus()
         
 
     

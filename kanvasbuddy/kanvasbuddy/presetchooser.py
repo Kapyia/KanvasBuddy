@@ -19,9 +19,7 @@ class KBPresetChooser(PresetChooser):
 
     def __init__(self, parent=None):
         super(KBPresetChooser, self).__init__(parent)
-        # Remove buttons deemed excessive for this plugin
-        self.layout().itemAt(0).widget().layout().itemAt(4).removeItem(self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,0))
-        self.layout().itemAt(0).widget().layout().itemAt(4).removeItem(self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,1))
-        self.layout().itemAt(0).widget().layout().removeItem(self.layout().itemAt(0).widget().layout().itemAt(4))
-
+        # Hide buttons deemed excessive for this plugin
+        self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,0).widget().hide()
+        self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,1).widget().hide()
 

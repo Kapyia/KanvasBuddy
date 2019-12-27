@@ -64,4 +64,3 @@ class KBButtonBox(QWidget):
 
     def button(self, name):
         return self._buttons[name]
-

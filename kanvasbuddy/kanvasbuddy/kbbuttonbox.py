@@ -33,7 +33,7 @@ class KBButton(QToolButton):
         else:
             raise TypeError(f"Unable to set icon of invalid type {type(icon)}")
 
-    def setColor(self, color):
+    def setColor(self, color): # In case the Krita API opens up for a "color changed" signal, this could be useful...
         if isinstance(color, QColor):
             pxmap = QPixmap(self.iconSize())
             pxmap.fill(color)
@@ -56,6 +56,22 @@ class KBButtonBox(QWidget):
         self._buttons[name] = KBButton(self.btnSize)
         self._buttons[name].setFocusPolicy(Qt.NoFocus)
         self.layout().addWidget(self._buttons[name])
+    
+    '''
+    def addButton(self, btn):
+        btn.setFixedSize(QSize(size, size))
+        btn.setFocusPolicy(Qt.NoFocus)
+        self._buttons[btn.objectName()] = btn
+        self.layout().addWidget(btn)
+
+
+    def createButton(self, name):
+        self._buttons[name] = KBButton(self.btnSize)
+        self._buttons[name].setFocusPolicy(Qt.NoFocus)
+        self.layout().addWidget(self._buttons[name])
+    '''
+    def index(self, name):
+        return self._buttons.index(name)+1
 
     def setButtonSize(self, size):
         self.btnSize = size

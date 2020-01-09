@@ -24,6 +24,7 @@ class KBTitleBar(QWidget):
         self.parent = parent
         self.layout = QHBoxLayout()
         self.layout.setContentsMargins(2, 1, 2, 1)
+        self.pressing = False
 
         self.title = QLabel("KanvasBuddy")
         font = self.font()

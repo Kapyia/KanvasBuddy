@@ -51,7 +51,7 @@ class KanvasBuddy(Extension):
         elif self.isActive:
             pass
         else:
-            # importlib.reload(uikanvasbuddy) # FOR TESTING ONLY
+            importlib.reload(uikanvasbuddy) # FOR TESTING ONLY
             self.isActive = True
             ui = uikanvasbuddy.UIKanvasBuddy(self)
             ui.launch()

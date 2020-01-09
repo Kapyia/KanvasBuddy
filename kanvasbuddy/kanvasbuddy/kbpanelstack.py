@@ -15,8 +15,15 @@
 
 from krita import Krita
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy, QMessageBox
 from PyQt5.QtCore import QSize, Qt, QEvent
+
+
+def boop(text): # Print a message to a dialog box
+    msg = QMessageBox()
+    msg.setText(str(text))
+    msg.exec_()
+
 
 class KBPanel(QWidget):
 
@@ -55,7 +62,6 @@ class KBPanelStack(QStackedWidget):
     
     def panel(self, name):
         return self.panels[name]
-
 
     def currentChanged(self, index):
         for i in range(0, self.count()):

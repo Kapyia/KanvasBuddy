@@ -13,10 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with KanvasBuddy. If not, see <https://www.gnu.org/licenses/>.
 
-import importlib
+import importlib, json, os
 from krita import Krita
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QSize, Qt, QEvent
+from configparser import ConfigParser
 
 from . import (
     kbsliderbox as sldbox, 
@@ -37,11 +38,13 @@ class UIKanvasBuddy(QWidget):
     def __init__(self, kbuddy):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
         # -- FOR TESTING ONLY --
-        # importlib.reload(sldbox)
-        # importlib.reload(btnbox)
-        # importlib.reload(title)
-        # importlib.reload(prechooser)
-        # importlib.reload(pnlstk)
+        importlib.reload(sldbox)
+        importlib.reload(btnbox)
+        importlib.reload(title)
+        importlib.reload(prechooser)
+        importlib.reload(pnlstk)
+
+        self.fileDir = os.path.dirname(os.path.realpath(__file__))
         
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
@@ -65,8 +68,23 @@ class UIKanvasBuddy(QWidget):
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
-        
         self.panelButtons = btnbox.KBButtonBox(self) # PANEL BUTTONS
+        
+        # # Retreive data from json
+        # data = None
+        # with open((self.fileDir + '\data.json'), 'r') as f:
+        #     data = json.load(f)
+        
+        # # Read which widgets to enable
+        # config = ConfigParser()
+        # config.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
+        # config.read(self.fileDir + '\config.ini')
+        
+        # for entry in config['PANELS']:
+        #     if config['PANELS'].getboolean(entry):
+        #         self.panelButtons.addButton(entry)
+        #         self.panelButtons.button(entry).setIcon(self.app.icon(data['panels'][entry]['icon']))
+        #         self.panelButtons.button(entry).clicked.connect()
 
         self.panelButtons.addButton('presets')
         self.panelButtons.button('presets').setIcon(self.app.icon('light_paintop_settings_01'))
@@ -80,7 +98,7 @@ class UIKanvasBuddy(QWidget):
         self.panelButtons.button('layers').setIcon(self.app.icon('light_duplicatelayer'))
         self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
 
-        
+
         self.brushProperties = sldbox.KBSliderBox(self) # PRESET PROPERTIES
 
         self.brushProperties.addSlider('opacity', 0, 100)

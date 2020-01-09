@@ -1,0 +1,90 @@
+{
+    "panels": {
+        "presetChooser": {
+            "objectName": "PresetDocker",
+            "icon": "light_paintop_settings_01"
+        },
+        "advancedColor": {
+            "objectName": "ColorSelectorNg",
+            "icon": "light_krita_tool_color_picker"
+        },
+        "layers": {
+            "objectName": "KisLayerBox",
+            "icon": "light_duplicatelayer"
+        },
+        "toolOptions": {
+            "objectName": "sharedtooldocker",
+            "icon": "light_paintop_settings_02"
+        },
+        "artisticColor": {
+            "objectName": "ArtisticColorSelector",
+            "icon": "color_wheel"
+        },
+        "digitalColors": {
+            "objectName": "DigitalMixer",
+            "icon": "light_krita_tool_gradient"
+        },
+        "specificColors": {
+            "objectName": "SpecificColorSelector",
+            "icon": "light_krita_tool_color_picker"
+        },
+        "palette": {
+            "objectName": "PaletteDocker",
+            "icon": "palette"
+        },
+        "quickSettings": {
+            "objectName": "quick_settings_docker",
+            "icon": "light_gridbrush"
+        },
+        "animation": {
+            "objectName": "AnimationDocker",
+            "icon": "light_addblankframe"
+        },
+        "onionSkins": {
+            "objectName": "OnionSkinsDocker",
+            "icon": "light_onion_skin_options"
+        },
+        "arrange": {
+            "objectName": "ArrangeDocker",
+            "icon": "24_light_align-horizontal-center"
+        },
+        "svgSymbols": {
+            "objectName": "SvgSymbolCollectionDocker",
+            "icon": "22_light_shape-choose"
+        },
+        "comicsProject": {
+            "objectName": "comics_project_manager_docker",
+            "icon": "template_comics_empty"
+        },
+        "lut": {
+            "objectName": "LutDocker",
+            "icon": "light_color-to-alpha"
+        },
+        "history": {
+            "objectName": "History",
+            "icon": "light_fileLayer"
+        }
+    },
+    "canvasOptions": {
+        "canvasOnly": { 
+            "action:": "view_show_canvas_only",
+            "icon": "light_document-new"
+        },
+        "mirrorCanvas": { 
+            "action": "mirror_canvas",
+            "icon": "light_mirror-view"
+        },
+        "resetZoom": {
+            "action": "zoom_to_100pct",
+            "icon": "light_zoom-original"
+        },
+        "wrapAround": {
+            "action": "wrap_around_mode",
+            "icon": "texture-icon"
+        },
+        "instantPreview": {
+            "action": "level_of_detail_mode",
+            "icon": "light_visible"
+        }
+    }
+}

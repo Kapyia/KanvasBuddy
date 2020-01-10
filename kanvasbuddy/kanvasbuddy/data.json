@@ -18,7 +18,7 @@
         },
         "artisticColor": {
             "objectName": "ArtisticColorSelector",
-            "icon": "color_wheel"
+            "icon": "light_wheel-sectors"
         },
         "digitalColors": {
             "objectName": "DigitalMixer",
@@ -30,7 +30,7 @@
         },
         "palette": {
             "objectName": "PaletteDocker",
-            "icon": "palette"
+            "icon": "light_pallete_library"
         },
         "quickSettings": {
             "objectName": "quick_settings_docker",
@@ -54,7 +54,7 @@
         },
         "comicsProject": {
             "objectName": "comics_project_manager_docker",
-            "icon": "template_comics_empty"
+            "icon": "light_select-all"
         },
         "lut": {
             "objectName": "LutDocker",
@@ -67,7 +67,7 @@
     },
     "canvasOptions": {
         "canvasOnly": { 
-            "action:": "view_show_canvas_only",
+            "action": "view_show_canvas_only",
             "icon": "light_document-new"
         },
         "mirrorCanvas": { 
@@ -80,7 +80,7 @@
         },
         "wrapAround": {
             "action": "wrap_around_mode",
-            "icon": "texture-icon"
+            "icon": "light_view-grid"
         },
         "instantPreview": {
             "action": "level_of_detail_mode",

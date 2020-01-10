@@ -15,7 +15,7 @@
 
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QToolButton
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QColor
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, pyqtSignal
 
 class KBButton(QToolButton):
 
@@ -43,7 +43,7 @@ class KBButton(QToolButton):
 
 class KBButtonBox(QWidget):
 
-    def __init__(self, parent, btnSize=32):
+    def __init__(self, btnSize, parent=None):
         super(KBButtonBox, self).__init__(parent)
         self.setLayout(QHBoxLayout())
 

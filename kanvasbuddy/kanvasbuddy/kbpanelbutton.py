@@ -1,3 +1,5 @@
+from krita import Krita
+
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QToolButton
 from PyQt5.QtGui import QIcon, QPixmap, QImage, QColor
 from PyQt5.QtCore import QSize, Qt

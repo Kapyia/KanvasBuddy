@@ -26,12 +26,13 @@ from . import (
     presetchooser as prechooser,
     kbcolorselectorframe as clrsel,
     kbpanelstack as pnlstk
-)
+)  
 
 def boop(text): # Print a message to a dialog box
     msg = QMessageBox()
     msg.setText(str(text))
     msg.exec_()
+
 
 class UIKanvasBuddy(QWidget):
 
@@ -44,15 +45,25 @@ class UIKanvasBuddy(QWidget):
         importlib.reload(prechooser)
         importlib.reload(pnlstk)
 
+        self.SLIDERS = {
+            'canvasRotation': sldbox.KBRotationSlider,
+            'brushOpacity': sldbox.KBOpacitySlider,
+            'brushFlow': sldbox.KBFlowSlider,
+            'brushSize': sldbox.KBSizeSlider
+        } 
+
         self.fileDir = os.path.dirname(os.path.realpath(__file__))
         
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
+        self.qwindow = self.app.activeWindow().qwindow()
         self.kbuddy = kbuddy
         self.setWindowFlags(
             Qt.Tool | 
             Qt.FramelessWindowHint
             )
+        
+        self.panelParents = {}
 
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
@@ -68,81 +79,59 @@ class UIKanvasBuddy(QWidget):
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
-        self.panelButtons = btnbox.KBButtonBox(self) # PANEL BUTTONS
+        self.mainWidget.addPanel('main', self.mainPanel)
+
+        # PANELS
+        self.panelButtons = btnbox.KBButtonBox(32) 
+
+        # Retreive data from json
+        data = None
+        with open(self.fileDir + '/data.json') as jsonFile:
+            data = json.load(jsonFile)
         
-        # # Retreive data from json
-        # data = None
-        # with open((self.fileDir + '\data.json'), 'r') as f:
-        #     data = json.load(f)
+        # Read which widgets to enable
+        config = ConfigParser()
+        config.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
+        config.read(self.fileDir + '/config.ini')
         
-        # # Read which widgets to enable
-        # config = ConfigParser()
-        # config.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
-        # config.read(self.fileDir + '\config.ini')
-        
-        # for entry in config['PANELS']:
-        #     if config['PANELS'].getboolean(entry):
-        #         self.panelButtons.addButton(entry)
-        #         self.panelButtons.button(entry).setIcon(self.app.icon(data['panels'][entry]['icon']))
-        #         self.panelButtons.button(entry).clicked.connect()
 
-        self.panelButtons.addButton('presets')
-        self.panelButtons.button('presets').setIcon(self.app.icon('light_paintop_settings_01'))
-        self.panelButtons.button('presets').clicked.connect(lambda: self.mainWidget.setCurrentIndex(1))
+        for entry in config['PANELS']:
+            if config['PANELS'].getboolean(entry):
+                self.panelParents[entry] = self.qwindow.findChild(
+                    QWidget, data['panels'][entry]['objectName']
+                    )
+                self.mainWidget.addPanel(entry, self.panelParents[entry].widget())
 
-        self.panelButtons.addButton('color')
-        self.panelButtons.button('color').setIcon(self.app.icon('light_krita_tool_color_picker'))
-        self.panelButtons.button('color').clicked.connect(lambda: self.mainWidget.setCurrentIndex(2))
-
-        self.panelButtons.addButton('layers')
-        self.panelButtons.button('layers').setIcon(self.app.icon('light_duplicatelayer'))
-        self.panelButtons.button('layers').clicked.connect(lambda: self.mainWidget.setCurrentIndex(3))
+                # Add a button for each panel
+                self.panelButtons.addButton(entry)
+                self.panelButtons.button(entry).setIcon(
+                    self.app.icon(data['panels'][entry]['icon'])
+                    )
+                self.panelButtons.button(entry).clicked.connect(
+                    self.mainWidget.panel(entry).activate
+                    )
 
 
-        self.brushProperties = sldbox.KBSliderBox(self) # PRESET PROPERTIES
+        # PRESET PROPERTIES
+        self.brushProperties = sldbox.KBSliderBox(self)
 
-        self.brushProperties.addSlider('opacity', 0, 100)
-        self.brushProperties.slider('opacity').setAffixes('Opacity: ', '%')
-        self.brushProperties.slider('opacity').connectValueChanged(
-            lambda: 
-                self.view.setPaintingOpacity(self.brushProperties.slider('opacity').value()/100)
-            )
-
-        self.brushProperties.addSlider('size', 1, 1000)
-        self.brushProperties.slider('size').setAffixes('Size: ', ' px')
-        self.brushProperties.slider('size').setScaling(3)
-        self.brushProperties.slider('size').connectValueChanged(self.view.setBrushSize)
+        for entry in config['SLIDERS']:
+            if config['SLIDERS'].getboolean(entry):
+                self.brushProperties.addReadySlider(entry, self.SLIDERS[entry]())
 
 
-        self.canvasOptions = btnbox.KBButtonBox(self, 16) # CANVAS OPTIONS
+        # CANVAS OPTIONS
+        self.canvasOptions = btnbox.KBButtonBox(16)
 
-        self.canvasOptions.addButton('presets')
-        self.canvasOptions.button('presets').clicked.connect(self.app.action('view_show_canvas_only').trigger)
-        self.canvasOptions.button('presets').setIcon(self.app.action('view_show_canvas_only').icon())
-
-        self.canvasOptions.addButton('mirror')
-        self.canvasOptions.button('mirror').clicked.connect(self.app.action('mirror_canvas').trigger)
-        self.canvasOptions.button('mirror').setIcon(self.app.action('mirror_canvas').icon())
-
-        self.canvasOptions.addButton('reset_view')
-        self.canvasOptions.button('reset_view').clicked.connect(self.app.action('zoom_to_100pct').trigger)
-        self.canvasOptions.button('reset_view').setIcon(self.app.action('zoom_to_100pct').icon())
-
-
-        # PANEL: PRESET CHOOSER        
-        self.presetChooser = prechooser.KBPresetChooser()
-        self.presetChooser.presetSelected.connect(self.setPreset)
-        self.presetChooser.presetClicked.connect(self.setPreset)
-
-
-        # PANEL: ADVANCED COLOR SELECTOR
-        self.colorSelectorParent = self.app.activeWindow().qwindow().findChild(QWidget, 'ColorSelectorNg') 
-        self.colorSelector = clrsel.KBColorSelectorFrame(self.colorSelectorParent.widget()) # Borrow the Advanced Color Selector
-
-
-        # PANEL: LAYERS
-        self.layerBoxParent = self.app.activeWindow().qwindow().findChild(QWidget, 'KisLayerBox') 
-        self.layerBox = self.layerBoxParent.widget() # Borrow the Layer Docker
+        for entry in config['CANVAS']:
+            if config['CANVAS'].getboolean(entry):
+                self.canvasOptions.addButton(entry)
+                self.canvasOptions.button(entry).clicked.connect(
+                    self.app.action(data['canvasOptions'][entry]['action']).trigger
+                    )
+                self.canvasOptions.button(entry).setIcon(
+                    self.app.icon(data['canvasOptions'][entry]['icon'])
+                    )
 
 
         # MAIN DIALOG CONSTRUCTION
@@ -150,16 +139,8 @@ class UIKanvasBuddy(QWidget):
         self.mainPanel.layout().addWidget(self.brushProperties)
         self.mainPanel.layout().addWidget(self.canvasOptions)
 
-        self.mainWidget.addPanel('main', self.mainPanel)
-        self.mainWidget.addPanel('presets', self.presetChooser)
-        self.mainWidget.addPanel('color', self.colorSelector)
-        self.mainWidget.addPanel('layers', self.layerBox)        
-
-
     def launch(self):
-        self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)
-        self.brushProperties.slider('size').setValue(self.view.brushSize())
-
+        self.brushProperties.synchronizeSliders()
         self.show()
 
 
@@ -174,14 +155,15 @@ class UIKanvasBuddy(QWidget):
 
     def closeEvent(self, e):
         # Return borrowed widgets to previous parents or else we're doomed
-        self.colorSelectorParent.setWidget(self.colorSelector.widget()) 
-        self.layerBoxParent.setWidget(self.layerBox)
+        for parent in self.panelParents:
+            self.panelParents[parent].setWidget(self.mainWidget.panel(parent).widget())
+            self.panelParents[parent].widget().setEnabled(True)
+
+        # self.colorSelectorParent.setWidget(self.colorSelector.widget()) 
+        # self.layerBoxParent.setWidget(self.layerBox)
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 
 
     def mousePressEvent(self, e):
-        self.setFocus()
-        
-
-    
+        self.setFocus()    

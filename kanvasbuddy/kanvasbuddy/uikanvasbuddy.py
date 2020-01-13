@@ -21,7 +21,8 @@
         return widget.sizeHint()
 '''
 
-import importlib, json, os
+import importlib, json
+from os import path
 from krita import Krita
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QSize, Qt, QEvent
@@ -52,19 +53,17 @@ class UIKanvasBuddy(QWidget):
         importlib.reload(prechooser)
         importlib.reload(pnlstk)
 
-        self.fileDir = os.path.dirname(os.path.realpath(__file__))
+        self.fileDir = path.dirname(path.realpath(__file__))
         
-        self.app = Krita.instance()
-        self.view = self.app.activeWindow().activeView()
+        self.view = Krita.instance().activeWindow().activeView()
         self.kbuddy = kbuddy
-        self.setWindowFlags(
-            Qt.Tool | 
-            Qt.FramelessWindowHint
-            )
+        self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
 
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
         self.layout().setSpacing(0)
+        
+        self.layout().addWidget(title.KBTitleBar(self))
 
         # LOAD CONFIG DATA
         config = self.loadConfig()
@@ -72,38 +71,39 @@ class UIKanvasBuddy(QWidget):
         
         # SET UP PANELS
         self.panelStack = pnlstk.KBPanelStack(self)
-
-        for entry in config['PANELS']:
-            if config['PANELS'].getboolean(entry):
-                # if entry == 'presetChooser':
-                #   add custom preset chooser 
-                self.panelStack.loadPanel(jsonData['panels'][entry])
-
+        self.initPanels(config['PANELS'], jsonData['panels'])
+        self.layout().addWidget(self.panelStack)
 
         # SET UP PRESET PROPERTIES
         self.brushProperties = sldbox.KBSliderBar(self)
-
-        for entry in config['SLIDERS']:
-            if config['SLIDERS'].getboolean(entry):
-                self.brushProperties.addSlider(entry)
-
+        self.initSliders(config['SLIDERS'])
         self.panelStack.main().layout().addWidget(self.brushProperties)
-
 
         # SET UP CANVAS OPTIONS
         self.canvasOptions = btnbox.KBButtonBar(16)
-
-        for entry in config['CANVAS']:
-            if config['CANVAS'].getboolean(entry):
-                self.canvasOptions.loadButton(
-                    jsonData['canvasOptions'][entry],
-                    self.app.action(jsonData['canvasOptions'][entry]['id']).trigger
-                    )
-
+        self.initCanvasOptions(config['CANVAS'], jsonData['canvasOptions'])
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 
-        self.layout().addWidget(title.KBTitleBar(self))
-        self.layout().addWidget(self.panelStack)
+
+    def initPanels(self, config, data):
+        for entry in config:
+            if config.getboolean(entry):
+                self.panelStack.loadPanel(data[entry])
+
+
+    def initSliders(self, config):
+        for entry in config:
+            if config.getboolean(entry):
+                self.brushProperties.addSlider(entry)
+
+
+    def initCanvasOptions(self, config, data):
+        for entry in config:
+            if config.getboolean(entry):
+                self.canvasOptions.loadButton(
+                    data[entry],
+                    Krita.instance().action(data[entry]['id']).trigger
+                    )
 
 
     def loadJSON(self):

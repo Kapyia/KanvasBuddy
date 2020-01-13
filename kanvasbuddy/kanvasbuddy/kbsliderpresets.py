@@ -7,7 +7,7 @@ class KBSizeSlider(KBSliderSpinBox):
         super(KBSizeSlider, self).__init__(1, 1000, parent)
         self.view = Krita.instance().activeWindow().activeView()
         self.setScaling(3)
-        self.setAffixes('Size: ', 'px')
+        self.setAffixes('Size: ', ' px')
         self.connectValueChanged(self.view.setBrushSize)
 
     def synchronize(self):

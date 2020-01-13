@@ -53,9 +53,12 @@ class KBPanelStack(QStackedWidget):
         ID = data['id']
         qwindow = Krita.instance().activeWindow().qwindow()
         parent = qwindow.findChild(QWidget, ID)
-        
+
         self._widgetParents[ID] = parent
         self.addPanel(ID, parent.widget())
+
+        if data['size']:
+            self.panel(ID).setSizeHint(data['size'])
 
         self.navBtns.loadButton(data, self.panel(ID).activate)
         

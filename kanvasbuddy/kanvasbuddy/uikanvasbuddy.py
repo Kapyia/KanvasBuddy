@@ -19,9 +19,7 @@
         return self.customSizeHint
     else:
         return widget.sizeHint()
-- other KB-Widgets also create sub-widgets from dictionaries (if possible)
 '''
-
 
 import importlib, json, os
 from krita import Krita

@@ -33,16 +33,20 @@ class KBSliderBar(QWidget):
             'brushSize': KBSizeSlider
         }
 
-    def createSlider(self, ID, min, max): # Redundant?
+
+    def createSlider(self, ID, min, max): # Redundant now?
         self._sliders[ID] = KBSliderSpinBox(min, max)
         self.layout().addWidget(self._sliders[ID])
+
 
     def addSlider(self, ID):
         self._sliders[ID] = self._presets[ID]()
         self.layout().addWidget(self._sliders[ID])
 
+
     def slider(self, ID):
         return self._sliders[ID]
+
 
     def synchronizeSliders(self):
         for slider in self._sliders:

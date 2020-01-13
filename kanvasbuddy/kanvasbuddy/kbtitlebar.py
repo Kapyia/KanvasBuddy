@@ -45,9 +45,11 @@ class KBTitleBar(QWidget):
         self.layout.addWidget(self.btn_close)
         self.setLayout(self.layout)
 
+
     def mousePressEvent(self, event):
         self.start = self.mapToGlobal(event.pos())
         self.pressing = True
+
 
     def mouseMoveEvent(self, event):
         if self.pressing:
@@ -58,6 +60,7 @@ class KBTitleBar(QWidget):
                                 self.parent.width(),
                                 self.parent.height())
             self.start = self.end
+
 
     def mouseReleaseEvent(self, QMouseEvent):
         self.pressing = False

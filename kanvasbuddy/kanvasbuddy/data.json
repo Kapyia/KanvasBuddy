@@ -1,89 +1,105 @@
 {
     "panels": {
         "presetChooser": {
-            "objectName": "PresetDocker",
-            "icon": "light_paintop_settings_01"
+            "id": "PresetDocker",
+            "icon": "light_paintop_settings_01",
+            "sizeHint": []
         },
         "advancedColor": {
-            "objectName": "ColorSelectorNg",
-            "icon": "light_krita_tool_color_picker"
+            "id": "ColorSelectorNg",
+            "icon": "light_krita_tool_color_picker",
+            "sizeHint": [290, 290]
         },
         "layers": {
-            "objectName": "KisLayerBox",
-            "icon": "light_duplicatelayer"
+            "id": "KisLayerBox",
+            "icon": "light_duplicatelayer",
+            "sizeHint": []
         },
         "toolOptions": {
-            "objectName": "sharedtooldocker",
-            "icon": "light_paintop_settings_02"
+            "id": "sharedtooldocker",
+            "icon": "light_paintop_settings_02",
+            "sizeHint": [307, 391]
         },
         "artisticColor": {
-            "objectName": "ArtisticColorSelector",
-            "icon": "light_wheel-sectors"
+            "id": "ArtisticColorSelector",
+            "icon": "light_wheel-sectors",
+            "sizeHint": [290, 290]
         },
         "digitalColors": {
-            "objectName": "DigitalMixer",
-            "icon": "light_krita_tool_gradient"
+            "id": "DigitalMixer",
+            "icon": "light_krita_tool_gradient",
+            "sizeHint": []
         },
         "specificColors": {
-            "objectName": "SpecificColorSelector",
-            "icon": "light_krita_tool_color_picker"
+            "id": "SpecificColorSelector",
+            "icon": "light_krita_tool_color_picker",
+            "sizeHint": []
         },
         "palette": {
-            "objectName": "PaletteDocker",
-            "icon": "light_pallete_library"
+            "id": "PaletteDocker",
+            "icon": "light_pallete_library",
+            "sizeHint": []
         },
         "quickSettings": {
-            "objectName": "quick_settings_docker",
-            "icon": "light_gridbrush"
+            "id": "quick_settings_docker",
+            "icon": "light_gridbrush",
+            "sizeHint": []
         },
         "animation": {
-            "objectName": "AnimationDocker",
-            "icon": "light_addblankframe"
+            "id": "AnimationDocker",
+            "icon": "light_addblankframe",
+            "sizeHint": []
         },
         "onionSkins": {
-            "objectName": "OnionSkinsDocker",
-            "icon": "light_onion_skin_options"
+            "id": "OnionSkinsDocker",
+            "icon": "light_onion_skin_options",
+            "sizeHint": []
         },
         "arrange": {
-            "objectName": "ArrangeDocker",
-            "icon": "24_light_align-horizontal-center"
+            "id": "ArrangeDocker",
+            "icon": "24_light_align-horizontal-center",
+            "sizeHint": []
         },
         "svgSymbols": {
-            "objectName": "SvgSymbolCollectionDocker",
-            "icon": "22_light_shape-choose"
+            "id": "SvgSymbolCollectionDocker",
+            "icon": "22_light_shape-choose",
+            "sizeHint": []
         },
         "comicsProject": {
-            "objectName": "comics_project_manager_docker",
-            "icon": "light_select-all"
+            "id": "comics_project_manager_docker",
+            "icon": "light_select-all",
+            "sizeHint": []
         },
         "lut": {
-            "objectName": "LutDocker",
-            "icon": "light_color-to-alpha"
+            "id": "LutDocker",
+            "icon": "light_color-to-alpha",
+            "sizeHint": []
         },
         "history": {
-            "objectName": "History",
-            "icon": "light_fileLayer"
+            "id": "History",
+            "icon": "light_fileLayer",
+            "sizeHint": []
         }
     },
     "canvasOptions": {
         "canvasOnly": { 
-            "action": "view_show_canvas_only",
+            "id": "view_show_canvas_only",
             "icon": "light_document-new"
         },
         "mirrorCanvas": { 
-            "action": "mirror_canvas",
+            "id": "mirror_canvas",
             "icon": "light_mirror-view"
         },
         "resetZoom": {
-            "action": "zoom_to_100pct",
+            "id": "zoom_to_100pct",
             "icon": "light_zoom-original"
         },
         "wrapAround": {
-            "action": "wrap_around_mode",
+            "id": "wrap_around_mode",
             "icon": "light_view-grid"
         },
         "instantPreview": {
-            "action": "level_of_detail_mode",
+            "id": "level_of_detail_mode",
             "icon": "light_visible"
         }
     }

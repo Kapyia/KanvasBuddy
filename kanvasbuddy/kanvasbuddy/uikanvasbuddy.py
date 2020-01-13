@@ -41,7 +41,6 @@ def boop(text): # Print a message to a dialog box
     msg.setText(str(text))
     msg.exec_()
 
-
 class UIKanvasBuddy(QWidget):
 
     def __init__(self, kbuddy):
@@ -66,16 +65,14 @@ class UIKanvasBuddy(QWidget):
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
         self.layout().setSpacing(0)
-        
-        self.panelStack = pnlstk.KBPanelStack(self)
-        
-        self.layout().addWidget(title.KBTitleBar(self))
-        self.layout().addWidget(self.panelStack)
 
+        # LOAD CONFIG DATA
         config = self.loadConfig()
         jsonData = self.loadJSON()
-
+        
         # SET UP PANELS
+        self.panelStack = pnlstk.KBPanelStack(self)
+
         for entry in config['PANELS']:
             if config['PANELS'].getboolean(entry):
                 # if entry == 'presetChooser':
@@ -105,26 +102,22 @@ class UIKanvasBuddy(QWidget):
 
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 
+        self.layout().addWidget(title.KBTitleBar(self))
+        self.layout().addWidget(self.panelStack)
+
 
     def loadJSON(self):
-        try:
-            with open(self.fileDir + '/data.json') as jsonFile:
-                data = json.load(jsonFile)
-                return data
-        except:
-            boop("Error: Failed to load JASON data")
-            self.close()
+        with open(self.fileDir + '/data.json') as jsonFile:
+            data = json.load(jsonFile)
+            return data
 
 
     def loadConfig(self):
-        try:
-            cfg = ConfigParser()
-            cfg.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
-            cfg.read(self.fileDir + '/config.ini')
-            return cfg
-        except:
-            boop("Error: Failed to load config file")
-            self.close()
+        cfg = ConfigParser()
+        cfg.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
+        cfg.read(self.fileDir + '/config.ini')
+        return cfg
+
 
     def launch(self):
         self.brushProperties.synchronizeSliders()

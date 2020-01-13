@@ -15,14 +15,87 @@
 
 from krita import Krita
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy, QMessageBox
-from PyQt5.QtCore import QSize, Qt, QEvent
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy
+from PyQt5.QtCore import QSize, QEvent
+
+from . import kbbuttonbox as btnbox
+from .kbpanel import KBPanel
+
+class KBPanelStack(QStackedWidget):
+
+    def __init__(self, parent=None):
+        super(KBPanelStack, self).__init__(parent)
+        super().currentChanged.connect(self.currentChanged)
+        self._panels = {}
+        self._widgetParents = {}
+        
+        self.mainPanel = QWidget()
+        self.mainPanel.setLayout(QVBoxLayout())
+        self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
+
+        self.navBtns = btnbox.KBButtonBar(32)
+
+        self.mainPanel.layout().addWidget(self.navBtns)
+        self.addPanel('main', self.mainPanel)
 
 
-def boop(text): # Print a message to a dialog box
-    msg = QMessageBox()
-    msg.setText(str(text))
-    msg.exec_()
+    def addPanel(self, ID, widget):
+        panel = KBPanel(widget)
+
+        if self.count() > 0:
+            panel.layout().addWidget(KBPanelCloseButton())
+
+        self._panels[ID] = panel
+        super().addWidget(panel)
+
+
+    def loadPanel(self, data):
+        ID = data['id']
+        qwindow = Krita.instance().activeWindow().qwindow()
+        parent = qwindow.findChild(QWidget, ID)
+        
+        self._widgetParents[ID] = parent
+        self.addPanel(ID, parent.widget())
+
+        self.navBtns.loadButton(data, self.panel(ID).activate)
+        
+
+    def dismantle(self):
+        for parent in self._widgetParents:
+            self._widgetParents[parent].setWidget(self.panel(parent).widget())
+            self._widgetParents[parent].widget().setEnabled(True)
+
+
+    def panel(self, name):
+        return self._panels[name]
+
+
+    def main(self):
+        return self.mainPanel
+
+
+    def currentChanged(self, index):
+        for i in range(0, self.count()):
+            policy = QSizePolicy.Ignored
+            if i == index:
+                policy = QSizePolicy.Expanding
+                self.widget(i).setEnabled(True)
+            else:
+                self.widget(i).setDisabled(False)
+
+            self.widget(i).setSizePolicy(policy, policy)
+            self.widget(i).updateGeometry()
+
+        self.adjustSize()
+        self.parentWidget().adjustSize()
+        
+    
+    def event(self, e):
+        r = super().event(e) # Get the return value of the parent class' event method first
+        if e.type() == QEvent.WindowDeactivate:
+            self.setCurrentIndex(0)
+        
+        return r
 
 
 class KBPanelCloseButton(QPushButton):
@@ -32,69 +105,4 @@ class KBPanelCloseButton(QPushButton):
         self.setIcon(Krita.instance().action('move_layer_up').icon())
         self.setIconSize(QSize(10, 10))
         self.setFixedHeight(12)
-
-
-class KBPanel(QWidget):
-
-    def __init__(self, widget):
-        super(KBPanel, self).__init__()
-        self.w = widget
-        self.setLayout(QVBoxLayout())
-        self.layout().setContentsMargins(0, 0, 0, 0)
-        self.layout().setSpacing(0)
-        self.layout().addWidget(widget)
-
-    def activate(self):
-        self.parentWidget().setCurrentWidget(self)
-
-    def widget(self):
-        return self.w
-
-
-class KBPanelStack(QStackedWidget):
-
-    def __init__(self, parent=None):
-        super(KBPanelStack, self).__init__(parent)
-        super().currentChanged.connect(self.currentChanged)
-        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        self.panels = {}
-
-
-    def addPanel(self, name, widget):
-        panel = KBPanel(widget)
-
-        if self.count() > 0:
-            btnClose = KBPanelCloseButton()
-            btnClose.clicked.connect(lambda: self.setCurrentIndex(0))
-
-            panel.layout().addWidget(btnClose)
-
-        self.panels[name] = panel
-        super().addWidget(panel)
-
-    
-    def panel(self, name):
-        return self.panels[name]
-
-    def currentChanged(self, index):
-        for i in range(0, self.count()):
-            if i == index:
-                self.widget(i).show()
-                self.widget(i).setEnabled(True)
-            else:
-                self.widget(i).hide()
-                self.widget(i).setEnabled(False)
-
-            # self.widget(i).setSizePolicy(policy, policy)
-            self.adjustSize()
-            self.parentWidget().adjustSize()
-
-        
-        
-    
-    def event(self, e):
-        ret = super().event(e) # Needs to be called first apparntly
-        if e.type() == QEvent.WindowDeactivate:
-            self.setCurrentIndex(0)
-        
-        return ret
+        self.clicked.connect(lambda: self.parentWidget().parentWidget().setCurrentIndex(0))

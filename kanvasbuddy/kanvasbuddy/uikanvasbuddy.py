@@ -13,6 +13,16 @@
 # You should have received a copy of the GNU General Public License
 # along with KanvasBuddy. If not, see <https://www.gnu.org/licenses/>.
 
+''' GAME PLAN
+- the new sizeHint():
+    if self.customSizeHint:
+        return self.customSizeHint
+    else:
+        return widget.sizeHint()
+- other KB-Widgets also create sub-widgets from dictionaries (if possible)
+'''
+
+
 import importlib, json, os
 from krita import Krita
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
@@ -45,102 +55,82 @@ class UIKanvasBuddy(QWidget):
         importlib.reload(prechooser)
         importlib.reload(pnlstk)
 
-        self.SLIDERS = {
-            'canvasRotation': sldbox.KBRotationSlider,
-            'brushOpacity': sldbox.KBOpacitySlider,
-            'brushFlow': sldbox.KBFlowSlider,
-            'brushSize': sldbox.KBSizeSlider
-        } 
-
         self.fileDir = os.path.dirname(os.path.realpath(__file__))
         
         self.app = Krita.instance()
         self.view = self.app.activeWindow().activeView()
-        self.qwindow = self.app.activeWindow().qwindow()
         self.kbuddy = kbuddy
         self.setWindowFlags(
             Qt.Tool | 
             Qt.FramelessWindowHint
             )
-        
-        self.panelParents = {}
 
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0,0,0,0)
         self.layout().setSpacing(0)
         
-        self.mainWidget = pnlstk.KBPanelStack(self)
+        self.panelStack = pnlstk.KBPanelStack(self)
         
         self.layout().addWidget(title.KBTitleBar(self))
-        self.layout().addWidget(self.mainWidget)
-        
-        # PANEL: MAIN
-        self.mainPanel = QWidget(self)
-        self.mainPanel.setLayout(QVBoxLayout())
-        self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
+        self.layout().addWidget(self.panelStack)
 
-        self.mainWidget.addPanel('main', self.mainPanel)
+        config = self.loadConfig()
+        jsonData = self.loadJSON()
 
-        # PANELS
-        self.panelButtons = btnbox.KBButtonBox(32) 
-
-        # Retreive data from json
-        data = None
-        with open(self.fileDir + '/data.json') as jsonFile:
-            data = json.load(jsonFile)
-        
-        # Read which widgets to enable
-        config = ConfigParser()
-        config.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
-        config.read(self.fileDir + '/config.ini')
-        
-
+        # SET UP PANELS
         for entry in config['PANELS']:
             if config['PANELS'].getboolean(entry):
-                self.panelParents[entry] = self.qwindow.findChild(
-                    QWidget, data['panels'][entry]['objectName']
-                    )
-                self.mainWidget.addPanel(entry, self.panelParents[entry].widget())
-
-                # Add a button for each panel
-                self.panelButtons.addButton(entry)
-                self.panelButtons.button(entry).setIcon(
-                    self.app.icon(data['panels'][entry]['icon'])
-                    )
-                self.panelButtons.button(entry).clicked.connect(
-                    self.mainWidget.panel(entry).activate
-                    )
+                # if entry == 'presetChooser':
+                #   add custom preset chooser 
+                self.panelStack.loadPanel(jsonData['panels'][entry])
 
 
-        # PRESET PROPERTIES
-        self.brushProperties = sldbox.KBSliderBox(self)
+        # SET UP PRESET PROPERTIES
+        self.brushProperties = sldbox.KBSliderBar(self)
 
         for entry in config['SLIDERS']:
             if config['SLIDERS'].getboolean(entry):
-                self.brushProperties.addReadySlider(entry, self.SLIDERS[entry]())
+                self.brushProperties.addSlider(entry)
+
+        self.panelStack.main().layout().addWidget(self.brushProperties)
 
 
-        # CANVAS OPTIONS
-        self.canvasOptions = btnbox.KBButtonBox(16)
+        # SET UP CANVAS OPTIONS
+        self.canvasOptions = btnbox.KBButtonBar(16)
 
         for entry in config['CANVAS']:
             if config['CANVAS'].getboolean(entry):
-                self.canvasOptions.addButton(entry)
-                self.canvasOptions.button(entry).clicked.connect(
-                    self.app.action(data['canvasOptions'][entry]['action']).trigger
-                    )
-                self.canvasOptions.button(entry).setIcon(
-                    self.app.icon(data['canvasOptions'][entry]['icon'])
+                self.canvasOptions.loadButton(
+                    jsonData['canvasOptions'][entry],
+                    self.app.action(jsonData['canvasOptions'][entry]['id']).trigger
                     )
 
+        self.panelStack.main().layout().addWidget(self.canvasOptions)
 
-        # MAIN DIALOG CONSTRUCTION
-        self.mainPanel.layout().addWidget(self.panelButtons)
-        self.mainPanel.layout().addWidget(self.brushProperties)
-        self.mainPanel.layout().addWidget(self.canvasOptions)
+
+    def loadJSON(self):
+        try:
+            with open(self.fileDir + '/data.json') as jsonFile:
+                data = json.load(jsonFile)
+                return data
+        except:
+            boop("Error: Failed to load JASON data")
+            self.close()
+
+
+    def loadConfig(self):
+        try:
+            cfg = ConfigParser()
+            cfg.optionxform = str # Prevents ConfigParser from turning all entrys lowercase 
+            cfg.read(self.fileDir + '/config.ini')
+            return cfg
+        except:
+            boop("Error: Failed to load config file")
+            self.close()
 
     def launch(self):
         self.brushProperties.synchronizeSliders()
+        self.panelStack.currentChanged(0)
         self.show()
 
 
@@ -150,17 +140,11 @@ class UIKanvasBuddy(QWidget):
             self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)
             self.brushProperties.slider('size').setValue(self.view.brushSize())
 
-        self.mainWidget.setCurrentIndex(0)
+        self.panelStack.setCurrentIndex(0)
 
 
     def closeEvent(self, e):
-        # Return borrowed widgets to previous parents or else we're doomed
-        for parent in self.panelParents:
-            self.panelParents[parent].setWidget(self.mainWidget.panel(parent).widget())
-            self.panelParents[parent].widget().setEnabled(True)
-
-        # self.colorSelectorParent.setWidget(self.colorSelector.widget()) 
-        # self.layerBoxParent.setWidget(self.layerBox)
+        self.panelStack.dismantle() # Return borrowed widgets to previous parents or else we're doomed
         self.kbuddy.setIsActive(False)
         super().closeEvent(e)
 

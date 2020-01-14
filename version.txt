@@ -1,4 +1,4 @@
-KanvasBuddy 0.3
+KanvasBuddy 0.4
 
 Contributor list:
 Kapyia @ krita-artists.org

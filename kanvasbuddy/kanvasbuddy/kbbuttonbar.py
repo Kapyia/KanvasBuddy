@@ -46,10 +46,12 @@ class KBButtonBar(QWidget):
         self._buttons[data['id']] = btn
         self.layout().addWidget(btn)
 
+
     def setButtonSize(self, size):
         self.btnSize = size
         for btn in self._buttons:
             btn.setFixedSize(QSize(size, size))
+
 
     def button(self, ID):
         return self._buttons[ID]

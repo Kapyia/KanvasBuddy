@@ -13,27 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with KanvasBuddy. If not, see <https://www.gnu.org/licenses/>.
 
-''' GAME PLAN
-- the new sizeHint():
-    if self.customSizeHint:
-        return self.customSizeHint
-    else:
-        return widget.sizeHint()
-'''
-
 import importlib, json
 from os import path
 from krita import Krita
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PyQt5.QtCore import QSize, Qt, QEvent
 from configparser import ConfigParser
 
 from . import (
-    kbsliderbox as sldbox, 
-    kbbuttonbox as btnbox, 
+    kbsliderbar as sldbar, 
+    kbbuttonbar as btnbar, 
     kbtitlebar as title,
     presetchooser as prechooser,
-    kbcolorselectorframe as clrsel,
     kbpanelstack as pnlstk
 )  
 
@@ -47,8 +39,9 @@ class UIKanvasBuddy(QWidget):
     def __init__(self, kbuddy):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
         # -- FOR TESTING ONLY --
-        importlib.reload(sldbox)
-        importlib.reload(btnbox)
+        importlib.reload(sldbar)
+        importlib.reload(btnbar
+)
         importlib.reload(title)
         importlib.reload(prechooser)
         importlib.reload(pnlstk)
@@ -75,12 +68,14 @@ class UIKanvasBuddy(QWidget):
         self.layout().addWidget(self.panelStack)
 
         # SET UP PRESET PROPERTIES
-        self.brushProperties = sldbox.KBSliderBar(self)
+        self.brushProperties = sldbar.KBSliderBar(self)
         self.initSliders(config['SLIDERS'])
+        self.panelStack.presetChanged.connect(self.brushProperties.synchronizeSliders)
         self.panelStack.main().layout().addWidget(self.brushProperties)
 
         # SET UP CANVAS OPTIONS
-        self.canvasOptions = btnbox.KBButtonBar(16)
+        self.canvasOptions = btnbar
+.KBButtonBar(16)
         self.initCanvasOptions(config['CANVAS'], jsonData['canvasOptions'])
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 
@@ -123,15 +118,6 @@ class UIKanvasBuddy(QWidget):
         self.brushProperties.synchronizeSliders()
         self.panelStack.currentChanged(0)
         self.show()
-
-
-    def setPreset(self, preset=None):
-        if preset: 
-            self.view.activateResource(self.presetChooser.currentPreset())
-            self.brushProperties.slider('opacity').setValue(self.view.paintingOpacity()*100)
-            self.brushProperties.slider('size').setValue(self.view.brushSize())
-
-        self.panelStack.setCurrentIndex(0)
 
 
     def closeEvent(self, e):

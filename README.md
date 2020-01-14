@@ -1,4 +1,4 @@
-# KanvasBuddy 0.3
+# KanvasBuddy 0.4
 A minimalist toolbar for Krita 
 
 ![KB Main](https://github.com/Kapyia/KanvasBuddy/blob/master/images/main_panel.png)
@@ -8,31 +8,30 @@ KanvasBuddy is a Python plugin made for Krita, a free professional and open-sour
 
 KanvasBuddy features:
 
-- A wide selection of Krita's dockers. Right there when you want them, then hidden awway when not in use!
+- A wide selection of Krita's dockers. Right there when you want them, then hidden away when not in use!
 - Slider controls for the opacity, size and flow of brush presets. Specific values can also be entered by simply typing.
-- Quick buttons for toggling Canvas-Only Mode, Mirror Canvas and Reset Zoom.
+- Quick buttons for toggling Canvas-Only Mode, Mirror Canvas and Reset Zoom, and more.
 <table>
   <tr>
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/main_panel.png" alt="KB Main" width="100"></td>
-    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/advanced_color_selector.png" alt="Advanced Color Selector" width="100"></td>
-    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/brush_preset_list.png" alt="Brush Presets" width="100"></td>
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/real_size.png" alt="Size Comparison" width="100"></td>
+    <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/maxed_out.png" alt="Maxed Out" width="100"></td>
   </tr>
 </table>
 
 ## New in version 0.4
-+ Configurability! You can now choose which dockers to appear on KB. This is done by editing the **config.ini** file in the script folder (it's just a basic text file).
-+ Updated sliders that mimicks Krita's own "slider sponboxes". They're more space efficient, clearer to read, and more space efficient!
++ Configurability! You can now choose which dockers, sliders and buttons to appear on KB. This is done by editing the **config.ini** file in the script folder (it's just a text file).
++ The previous point has enabled the addition of many different dockers, such as the Palette Docker, Tool Options and Onion Skins.
++ Updated sliders that mimicks Krita's own "slider sponboxes". They're better featured, clearer, and more space efficient!
++ Added a manual for the Python Plugins section of Krita's settings 
 
 ## Who is KanvasBuddy for?
-To be blunt, the intended user for KB has always been myself. Catering to the need of a single artist made it easier to keep the number of features - and thus the size of the dialog - to an absolute minimum. That being said, feedback is welcomed but I also encourage people to tinker with the script to adapt it to their own needs.
-
-KB is best suited to someone who's workflow more closely resembles that of a traditional painter and who is already well-versed in Krita's shortcut commands. 
+KB is best suited to someone who's already well-versed in Krita's shortcut commands. The plugin isn't meant to replace the entirety of Krita's UI, just the most essential features needed to be able to work in Canvas-Only mode.
 
 ## Download & Installation
 
 #### Downloads:
-+ **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/kanvasbuddy-0-3.zip)**
++ **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/KanvasBuddy-0-4.zip)**
 + **[SOURCE](https://github.com/Kapyia/KanvasBuddy)**
 
 Open the **KanvasBuddy-0-4.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
@@ -43,11 +42,12 @@ To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Man
 Happy painting! :)
 
 ## Known issues
+- KB can't borrow the Tool Options docker if it's set to be in Krita's tool bar.
 - Issues on Linux based operating systems are being looked into, so please provide any information you have on them! Linux doesn't love my sets of hardware, but I'll do my best to work them out.
 - KB features virtually no crash handling. Should KB crash you might need to restart Krita in order for KB to work again.
 - Sliders and values doesn't synchronize properly between KB and Krita due to limitations in the API. This is only a visual error and does not affect functionality. 
 
-Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but unfortunately I can't guarantee it'll work well for people on other systems and/or machines.
+Disclaimer: this plugin has been developed by someone better described as a 'code bodger' rather than a programmer. **Beware of spaghetti.** The plugin works well for me personally, but unfortunately I can't guarantee it'll work well for people on other systems or machines.
 
 ## License
 

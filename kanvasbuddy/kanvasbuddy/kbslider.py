@@ -13,10 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with KanvasBuddy. If not, see <https://www.gnu.org/licenses/>.
 
+from krita import Krita
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QStackedLayout, QProgressBar, QSpinBox
 from PyQt5.QtCore import Qt
 
-class KBSliderSpinBox(QWidget):
+APP = Krita.instance()
+VIEW = APP.activeWindow().activeView()
+
+class KBSliderSpinBox(QWidget): # Base Class
 
     def __init__(self, min = 0, max = 100, parent=None):
         super(KBSliderSpinBox, self).__init__(parent)
@@ -104,12 +108,6 @@ class KBSliderSpinBox(QWidget):
     def setValue(self, val):
         self.spinbox.setValue(val)
         self.updateProgBar()
-
-    def setExponential(self, ex):
-        if isinstance(ex, bool):
-            self.exponential = ex
-        else:
-            raise TypeError("invalid argument; active state must be a boolean")
         
     def setPrefix(self, pre):
         self.spinbox.setPrefix(pre)
@@ -126,24 +124,39 @@ class KBSliderSpinBox(QWidget):
         self.spinbox.valueChanged.connect(func)
 
 
-class KBSliderBox(QWidget):
+class KBSizeSlider(KBSliderSpinBox):
 
-    def __init__(self, parent):
-        super(KBSliderBox, self).__init__(parent)
-        self.setLayout(QVBoxLayout())
+    def __init__(self, parent=None):
+        super(KBSizeSlider, self).__init__(1, 1000, parent)
+        self.setScaling(3)
+        self.setAffixes('Size: ', 'px')
+        self.connectValueChanged(VIEW.setBrushSize)
 
-        self.layout().setContentsMargins(2, 0, 2, 0)
-        self.layout().setSpacing(4)
-        self.sliders = {}
-
-    def addSlider(self, name, min, max):
-        self.sliders[name] = KBSliderSpinBox(min, max)
-        self.layout().addWidget(self.sliders[name])
-
-    def slider(self, name):
-        return self.sliders[name]
+        
+class KBRotationSlider(KBSliderSpinBox):
+    def __init__(self, parent=None):
+        super(KBRotationSlider, self).__init__(0, 360, parent)
+        self.setAffixes('Rotation: ', '°')
+        self.connectValueChanged(VIEW.canvas().setRotation) # wants a qreal number. do i need to convert?
 
 
+class KBOpacitySlider(KBSliderSpinBox):
 
+    def __init__(self, parent=None):
+        super(KBOpacitySlider, self).__init__(parent)
+        self.setAffixes('Opacity: ', '%')
+        self.connectValueChanged(
+            lambda: 
+                VIEW.setPaintingOpacity(self.value()/100)
+            )
+
+class KBFlowSlider(KBSliderSpinBox):
+    def __init__(self, parent=None):
+        super(KBFlowSlider, self).__init__(parent)
+        self.setAffixes('Flow: ', '%')
+        self.connectValueChanged(
+            lambda: 
+                VIEW.setPaintingFlow(self.value()/100)
+            )
 
 

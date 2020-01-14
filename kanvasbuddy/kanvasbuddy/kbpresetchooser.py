@@ -15,6 +15,8 @@
 
 from krita import PresetChooser
 
+from PyQt5.QtCore import QSize
+
 class KBPresetChooser(PresetChooser):
 
     def __init__(self, parent=None):
@@ -23,3 +25,5 @@ class KBPresetChooser(PresetChooser):
         self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,0).widget().hide()
         self.layout().itemAt(0).widget().layout().itemAt(4).itemAtPosition(0,1).widget().hide()
 
+    def sizeHint(self):
+        return QSize(260, 300)

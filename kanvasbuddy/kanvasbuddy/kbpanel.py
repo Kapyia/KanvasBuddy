@@ -16,19 +16,35 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from PyQt5.QtCore import QSize
 
-class KBColorSelectorFrame(QWidget):
-    def __init__(self, w=None):
-        super(KBColorSelectorFrame, self).__init__()
+class KBPanel(QWidget):
+
+    def __init__(self, widget):
+        super(KBPanel, self).__init__()
+        self.wdgt = widget
+        self.size = None
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
-        if w:
-            self.layout().addWidget(w)
+        self.layout().setSpacing(0)
+        self.layout().addWidget(self.wdgt)
 
-    def sizeHint(self):
-        return QSize(290, 290)
 
-    def setWidget(self, w):
-        self.layout().addWidget(w)
+    def activate(self):
+        self.parentWidget().setCurrentWidget(self)
+
 
     def widget(self):
-        return self.layout().itemAt(0).widget()
+        return self.wdgt
+
+
+    def setSizeHint(self, size):
+        self.size = QSize(size[0], size[1]+12)
+
+
+    def sizeHint(self):
+        if self.size:
+            return self.size
+        else:
+            return self.wdgt.sizeHint()
+    
+
+    

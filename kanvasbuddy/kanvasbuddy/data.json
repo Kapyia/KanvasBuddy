@@ -1,0 +1,106 @@
+{
+    "panels": {
+        "presetChooser": {
+            "id": "PresetDocker",
+            "icon": "light_paintop_settings_01",
+            "size": [260, 335]
+        },
+        "advancedColor": {
+            "id": "ColorSelectorNg",
+            "icon": "light_krita_tool_color_picker",
+            "size": [290, 290]
+        },
+        "artisticColor": {
+            "id": "ArtisticColorSelector",
+            "icon": "light_wheel-sectors",
+            "size": []
+        },
+        "digitalColors": {
+            "id": "DigitalMixer",
+            "icon": "light_krita_tool_gradient",
+            "size": []
+        },
+        "specificColors": {
+            "id": "SpecificColorSelector",
+            "icon": "light_krita_tool_color_picker",
+            "size": [290, 100]
+        },
+        "palette": {
+            "id": "PaletteDocker",
+            "icon": "light_pallete_library",
+            "size": []
+        },
+        "layers": {
+            "id": "KisLayerBox",
+            "icon": "light_duplicatelayer",
+            "size": []
+        },
+        "toolOptions": {
+            "id": "sharedtooldocker",
+            "icon": "light_paintop_settings_02",
+            "size": [306, 391]
+        },
+        "quickSettings": {
+            "id": "quick_settings_docker",
+            "icon": "light_gridbrush",
+            "size": [260, 325]
+        },
+        "animation": {
+            "id": "AnimationDocker",
+            "icon": "light_addblankframe",
+            "size": []
+        },
+        "onionSkins": {
+            "id": "OnionSkinsDocker",
+            "icon": "light_onion_skin_options",
+            "size": [100, 100]
+        },
+        "arrange": {
+            "id": "ArrangeDocker",
+            "icon": "24_light_align-horizontal-center",
+            "size": [100, 100]
+        },
+        "svgSymbols": {
+            "id": "SvgSymbolCollectionDocker",
+            "icon": "22_light_shape-choose",
+            "size": []
+        },
+        "comicsProject": {
+            "id": "comics_project_manager_docker",
+            "icon": "light_select-all",
+            "size": []
+        },
+        "lut": {
+            "id": "LutDocker",
+            "icon": "light_color-to-alpha",
+            "size": []
+        },
+        "history": {
+            "id": "History",
+            "icon": "light_fileLayer",
+            "size": []
+        }
+    },
+    "canvasOptions": {
+        "canvasOnly": { 
+            "id": "view_show_canvas_only",
+            "icon": "light_document-new"
+        },
+        "mirrorCanvas": { 
+            "id": "mirror_canvas",
+            "icon": "light_mirror-view"
+        },
+        "resetZoom": {
+            "id": "zoom_to_100pct",
+            "icon": "light_zoom-original"
+        },
+        "wrapAround": {
+            "id": "wrap_around_mode",
+            "icon": "light_view-grid"
+        },
+        "instantPreview": {
+            "id": "level_of_detail_mode",
+            "icon": "light_visible"
+        }
+    }
+}

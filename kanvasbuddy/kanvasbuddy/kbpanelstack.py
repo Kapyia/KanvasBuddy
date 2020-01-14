@@ -16,45 +16,73 @@
 from krita import Krita
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy
-from PyQt5.QtCore import QSize, Qt, QEvent
+from PyQt5.QtCore import QSize, QEvent, pyqtSignal
 
-class KBPanel(QWidget):
-
-    def __init__(self, widget):
-        super(KBPanel, self).__init__()
-        self.setLayout(QVBoxLayout())
-        self.layout().setContentsMargins(0, 0, 0, 0)
-        self.layout().setSpacing(0)
-        self.layout().addWidget(widget)
-
+from .kbbuttonbar import KBButtonBar
+from .kbpanel import KBPanel
+from .kbpresetchooser import KBPresetChooser
 
 class KBPanelStack(QStackedWidget):
+    presetChanged = pyqtSignal()
 
     def __init__(self, parent=None):
         super(KBPanelStack, self).__init__(parent)
         super().currentChanged.connect(self.currentChanged)
-        self.panels = {}
+        self._panels = {}
+        self._widgetParents = {}
         
+        self.mainPanel = QWidget()
+        self.mainPanel.setLayout(QVBoxLayout())
+        self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
-    def addPanel(self, name, widget):
+        self.navBtns = KBButtonBar(32)
+
+        self.mainPanel.layout().addWidget(self.navBtns)
+        self.addPanel('main', self.mainPanel)
+
+
+    def addPanel(self, ID, widget):
         panel = KBPanel(widget)
 
         if self.count() > 0:
-            panel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+            panel.layout().addWidget(KBPanelCloseButton())
 
-            btnClose = QPushButton(self)
-            btnClose.setIcon(Krita.instance().action('move_layer_up').icon())
-            btnClose.setIconSize(QSize(10, 10))
-            btnClose.setFixedHeight(12)
-            btnClose.clicked.connect(lambda: self.setCurrentIndex(0))
-
-            panel.layout().addWidget(btnClose)
-
-        self.panels[name] = panel
+        self._panels[ID] = panel
         super().addWidget(panel)
-    
+
+
+    def loadPanel(self, data):
+        ID = data['id']
+        if ID == 'PresetDocker': # This is ugly, but necessary until the Krita API opens a proper 'presetChanged' signal
+            pc = KBPresetChooser()
+            pc.presetSelected.connect(self.brushPresetChanged)
+            pc.presetClicked.connect(self.brushPresetChanged)
+            self.addPanel(ID, pc)
+        else:
+            qwindow = Krita.instance().activeWindow().qwindow()
+            parent = qwindow.findChild(QWidget, ID)
+
+            self._widgetParents[ID] = parent
+            self.addPanel(ID, parent.widget())
+
+            if data['size']:
+                self.panel(ID).setSizeHint(data['size'])
+
+        self.navBtns.loadButton(data, self.panel(ID).activate)
+        
+
+    def dismantle(self):
+        for parent in self._widgetParents:
+            self._widgetParents[parent].setWidget(self.panel(parent).widget())
+            self._widgetParents[parent].widget().setEnabled(True)
+
+
     def panel(self, name):
-        return self.panels[name]
+        return self._panels[name]
+
+
+    def main(self):
+        return self.mainPanel
 
 
     def currentChanged(self, index):
@@ -64,18 +92,35 @@ class KBPanelStack(QStackedWidget):
                 policy = QSizePolicy.Expanding
                 self.widget(i).setEnabled(True)
             else:
-                self.widget(i).setEnabled(False)
+                self.widget(i).setDisabled(False)
 
             self.widget(i).setSizePolicy(policy, policy)
+            self.widget(i).updateGeometry()
 
-        # self.widget(index).adjustSize()
         self.adjustSize()
         self.parentWidget().adjustSize()
         
     
     def event(self, e):
-        ret = super().event(e) # Needs to be called first, apparently
+        r = super().event(e) # Get the return value of the parent class' event method first
         if e.type() == QEvent.WindowDeactivate:
             self.setCurrentIndex(0)
         
-        return ret
+        return r
+
+
+    def brushPresetChanged(self, preset):
+        Krita.instance().activeWindow().activeView().activateResource(
+            self.panel('PresetDocker').widget().currentPreset()
+            )
+        self.presetChanged.emit()
+
+
+class KBPanelCloseButton(QPushButton):
+
+    def __init__(self, parent=None):
+        super(KBPanelCloseButton, self).__init__(parent)
+        self.setIcon(Krita.instance().action('move_layer_up').icon())
+        self.setIconSize(QSize(10, 10))
+        self.setFixedHeight(12)
+        self.clicked.connect(lambda: self.parentWidget().parentWidget().setCurrentIndex(0))

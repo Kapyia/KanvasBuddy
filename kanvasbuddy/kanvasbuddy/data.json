@@ -3,7 +3,7 @@
         "presetChooser": {
             "id": "PresetDocker",
             "icon": "light_paintop_settings_01",
-            "size": []
+            "size": [260, 335]
         },
         "advancedColor": {
             "id": "ColorSelectorNg",

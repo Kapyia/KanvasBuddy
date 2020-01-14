@@ -35,7 +35,7 @@ class KanvasBuddy(Extension):
 
     def createActions(self, window): # Called by Krita on startup
         action = window.createAction("kanvasbuddy", "KanvasBuddy")
-        action.setToolTip("Minimal toolbox for speed painting")
+        action.setToolTip("A floating minimalist GUI")
         action.triggered.connect(self.launchInterface)
 
 

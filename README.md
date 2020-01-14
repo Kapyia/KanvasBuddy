@@ -22,7 +22,7 @@ KanvasBuddy features:
 ## New in version 0.4
 + Configurability! You can now choose which dockers, sliders and buttons to appear on KB. This is done by editing the **config.ini** file in the script folder (it's just a text file).
 + The previous point has enabled the addition of many different dockers, such as the Palette Docker, Tool Options and Onion Skins.
-+ Updated sliders that mimicks Krita's own "slider sponboxes". They're better featured, clearer, and more space efficient!
++ Updated sliders that mimicks Krita's own "slider spinboxes". They're better featured, clearer, and more space efficient!
 + Added a manual for the Python Plugins section of Krita's settings 
 
 ## Who is KanvasBuddy for?

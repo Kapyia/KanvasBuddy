@@ -16,12 +16,14 @@
 from krita import Krita
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QStackedWidget, QSizePolicy
-from PyQt5.QtCore import QSize, QEvent
+from PyQt5.QtCore import QSize, QEvent, pyqtSignal
 
-from . import kbbuttonbox as btnbox
+from .kbbuttonbar import KBButtonBar
 from .kbpanel import KBPanel
+from .kbpresetchooser import KBPresetChooser
 
 class KBPanelStack(QStackedWidget):
+    presetChanged = pyqtSignal()
 
     def __init__(self, parent=None):
         super(KBPanelStack, self).__init__(parent)
@@ -33,7 +35,7 @@ class KBPanelStack(QStackedWidget):
         self.mainPanel.setLayout(QVBoxLayout())
         self.mainPanel.layout().setContentsMargins(4, 4, 4, 4)
 
-        self.navBtns = btnbox.KBButtonBar(32)
+        self.navBtns = KBButtonBar(32)
 
         self.mainPanel.layout().addWidget(self.navBtns)
         self.addPanel('main', self.mainPanel)
@@ -51,14 +53,20 @@ class KBPanelStack(QStackedWidget):
 
     def loadPanel(self, data):
         ID = data['id']
-        qwindow = Krita.instance().activeWindow().qwindow()
-        parent = qwindow.findChild(QWidget, ID)
+        if ID == 'PresetDocker': # This is ugly, but necessary until the Krita API opens a proper 'presetChanged' signal
+            pc = KBPresetChooser()
+            pc.presetSelected.connect(self.brushPresetChanged)
+            pc.presetClicked.connect(self.brushPresetChanged)
+            self.addPanel(ID, pc)
+        else:
+            qwindow = Krita.instance().activeWindow().qwindow()
+            parent = qwindow.findChild(QWidget, ID)
 
-        self._widgetParents[ID] = parent
-        self.addPanel(ID, parent.widget())
+            self._widgetParents[ID] = parent
+            self.addPanel(ID, parent.widget())
 
-        if data['size']:
-            self.panel(ID).setSizeHint(data['size'])
+            if data['size']:
+                self.panel(ID).setSizeHint(data['size'])
 
         self.navBtns.loadButton(data, self.panel(ID).activate)
         
@@ -99,6 +107,13 @@ class KBPanelStack(QStackedWidget):
             self.setCurrentIndex(0)
         
         return r
+
+
+    def brushPresetChanged(self, preset):
+        Krita.instance().activeWindow().activeView().activateResource(
+            self.panel('PresetDocker').widget().currentPreset()
+            )
+        self.presetChanged.emit()
 
 
 class KBPanelCloseButton(QPushButton):

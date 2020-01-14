@@ -25,7 +25,6 @@ from . import (
     kbsliderbar as sldbar, 
     kbbuttonbar as btnbar, 
     kbtitlebar as title,
-    presetchooser as prechooser,
     kbpanelstack as pnlstk
 )  
 
@@ -40,10 +39,8 @@ class UIKanvasBuddy(QWidget):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
         # -- FOR TESTING ONLY --
         importlib.reload(sldbar)
-        importlib.reload(btnbar
-)
+        importlib.reload(btnbar)
         importlib.reload(title)
-        importlib.reload(prechooser)
         importlib.reload(pnlstk)
 
         self.fileDir = path.dirname(path.realpath(__file__))
@@ -74,8 +71,7 @@ class UIKanvasBuddy(QWidget):
         self.panelStack.main().layout().addWidget(self.brushProperties)
 
         # SET UP CANVAS OPTIONS
-        self.canvasOptions = btnbar
-.KBButtonBar(16)
+        self.canvasOptions = btnbar.KBButtonBar(16)
         self.initCanvasOptions(config['CANVAS'], jsonData['canvasOptions'])
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 

@@ -1,0 +1,1 @@
+[ ] Remove magic number in KBPanel's sizeHint. The number 12 is the height of the close button.

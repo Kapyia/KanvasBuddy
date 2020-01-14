@@ -8,11 +8,9 @@ KanvasBuddy is a Python plugin made for Krita, a free professional and open-sour
 
 KanvasBuddy features:
 
-- Krita's full Brush Presets list
-- Krita's Advanced Color Selector - size large!
-- Krita's Layers Docker
-- Brush Opacity and Size controls
-- Quick buttons for Canvas-Only Mode, Mirror Canvas and Reset Zoom 
+- A wide selection of Krita's dockers. Right there when you want them, then hidden awway when not in use!
+- Slider controls for the opacity, size and flow of brush presets. Specific values can also be entered by simply typing.
+- Quick buttons for toggling Canvas-Only Mode, Mirror Canvas and Reset Zoom.
 <table>
   <tr>
     <td><img src="https://github.com/Kapyia/KanvasBuddy/blob/master/images/main_panel.png" alt="KB Main" width="100"></td>
@@ -22,11 +20,9 @@ KanvasBuddy features:
   </tr>
 </table>
 
-## New in version 0.3
-+ Shortcut commands should no longer be gobbled up by KB  
-+ The close button won't be triggered by pressing the space bar anymore, pan the canvas in peace!
-+ As the creator of and sole contributor to KB I've decided to, as of version 0.3, switch the license of KB from CC BY-NC-SA 4.0 to GNU GPL. It changes virtually nothing about how open KB is to the users but means that KB and Krita will be released under the same license. The switch just makes sense to me.
-+ Bonus: the source now features a small diagram over how KB is constructed.
+## New in version 0.4
++ Configurability! You can now choose which dockers to appear on KB. This is done by editing the **config.ini** file in the script folder (it's just a basic text file).
++ Updated sliders that mimicks Krita's own "slider sponboxes". They're more space efficient, clearer to read, and more space efficient!
 
 ## Who is KanvasBuddy for?
 To be blunt, the intended user for KB has always been myself. Catering to the need of a single artist made it easier to keep the number of features - and thus the size of the dialog - to an absolute minimum. That being said, feedback is welcomed but I also encourage people to tinker with the script to adapt it to their own needs.
@@ -39,8 +35,8 @@ KB is best suited to someone who's workflow more closely resembles that of a tra
 + **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/kanvasbuddy-0-3.zip)**
 + **[SOURCE](https://github.com/Kapyia/KanvasBuddy)**
 
-Open the **kanvasbuddy-0-3.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
-Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **kanvasbuddy-0-3.zip** archive and let the software handle it.
+Open the **KanvasBuddy-0-4.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
+Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **KanvasBuddy-0-4.zip** archive and let the software handle it.
 
 To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Manager** and click the checkbox to the left of the field that says **KanvasBuddy**. When you want to launch KB, simply go to **Tools** -> **Scripts** and select **KanvasBuddy**. Please note that KanvasBuddy requires you to have an open document to work.
 

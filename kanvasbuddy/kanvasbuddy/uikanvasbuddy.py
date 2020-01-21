@@ -17,17 +17,15 @@ import importlib, json
 from os import path
 from krita import Krita
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QMessageBox
-from PyQt5.QtCore import QSize, Qt, QEvent
+from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from configparser import ConfigParser
 
-from . import (
-    kbsliderbar as sldbar, 
-    kbbuttonbar as btnbar, 
-    kbtitlebar as title,
-    kbpanelstack as pnlstk
-)  
+from . import kbsliderbar as sldbar # Removed trailing commas, will it fix issues on debian?
+from . import kbbuttonbar as btnbar
+from . import kbtitlebar as title
+from . import kbpanelstack as pnlstk  
 
+from PyQt5.QtWidgets import QMessageBox
 def boop(text): # Print a message to a dialog box
     msg = QMessageBox()
     msg.setText(str(text))

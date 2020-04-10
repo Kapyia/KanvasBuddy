@@ -1,4 +1,4 @@
-# KanvasBuddy 0.4
+# KanvasBuddy 0.4.1
 A minimalist toolbar for Krita 
 
 ![KB Main](https://github.com/Kapyia/KanvasBuddy/blob/master/images/main_panel.png)
@@ -19,11 +19,9 @@ KanvasBuddy features:
   </tr>
 </table>
 
-## New in version 0.4
-+ Configurability! You can now choose which dockers, sliders and buttons to appear on KB. This is done by editing the **config.ini** file in the script folder (it's just a text file).
-+ The previous point has enabled the addition of many different dockers, such as the Palette Docker, Tool Options and Onion Skins.
-+ Updated sliders that mimicks Krita's own "slider spinboxes". They're better featured, clearer, and more space efficient!
-+ Added a manual for the Python Plugins section of Krita's settings 
+## New in version 0.4.1
++ This is mainly a small patch to ensure compatibility with newer versions of Krita. The developers patched a bug in the Krita API and KanvasBuddy follows suit!
++ Pinned Panel Mode: prevent KanvasBuddy from switching back to the main panel even if you click on Krita's canvas. Enable this by clicking the tiny thumbtack in the title bar. (Credit to nickgeneratorfailed over at Krita-Artists for the suggestion)
 
 ## Who is KanvasBuddy for?
 KB is best suited to someone who's already well-versed in Krita's shortcut commands. The plugin isn't meant to replace the entirety of Krita's UI, just the most essential features needed to be able to work in Canvas-Only mode.
@@ -31,11 +29,11 @@ KB is best suited to someone who's already well-versed in Krita's shortcut comma
 ## Download & Installation
 
 #### Downloads:
-+ **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/KanvasBuddy-0-4.zip)**
++ **[ZIP ARCHIVE](https://github.com/Kapyia/KanvasBuddy/raw/master/KanvasBuddy-0-4-1.zip)**
 + **[SOURCE](https://github.com/Kapyia/KanvasBuddy)**
 
-Open the **KanvasBuddy-0-4.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
-Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **KanvasBuddy-0-4.zip** archive and let the software handle it.
+Open the **KanvasBuddy-0-4-1.zip** archive and place the **kanvasbuddy.desktop** file and the **kanvasbuddy** (all lower  case) folder in the **pykrita** directory, et voilà! Installed!
+Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python Plugins...** and select the **KanvasBuddy-0-4-1.zip** archive and let the software handle it.
 
 To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Manager** and click the checkbox to the left of the field that says **KanvasBuddy**. When you want to launch KB, simply go to **Tools** -> **Scripts** and select **KanvasBuddy**. Please note that KanvasBuddy requires you to have an open document to work.
 
@@ -43,7 +41,7 @@ Happy painting! :)
 
 ## Known issues
 - KB can't borrow the Tool Options docker if it's set to be in Krita's tool bar.
-- Issues on Linux based operating systems are being looked into, so please provide any information you have on them! Linux doesn't love my sets of hardware, but I'll do my best to work them out.
+- People have experienced issues with the plugin on Linux. I have personally tested the plugin on several distros (Manjaro, elementary, Fedora, to name a few) without any issues, and so it's been hard for me to do any troubleshooting. I'm eager to hear from anyone who experienced issues and was able to come up with fixes for them! 
 - KB features virtually no crash handling. Should KB crash you might need to restart Krita in order for KB to work again.
 - Sliders and values doesn't synchronize properly between KB and Krita due to limitations in the API. This is only a visual error and does not affect functionality. 
 

@@ -37,6 +37,8 @@ Alternatively, open Krita and go to **Tools** -> **Scripts** -> **Import Python 
 
 To enable KB go to **Settings** -> **Configure Krita...** -> **Python Plugin Manager** and click the checkbox to the left of the field that says **KanvasBuddy**. When you want to launch KB, simply go to **Tools** -> **Scripts** and select **KanvasBuddy**. Please note that KanvasBuddy requires you to have an open document to work.
 
+If you want to assign a keyboard shortcut to launch KB you need to download **[kanvasbuddy.action](https://github.com/Kapyia/KanvasBuddy/raw/master/kanvasbuddy.action)**. Go to your resource directory (In Krita, go to Settings > Manage Resources… > Open Resource Folder) and create a folder called **actions**. Place the **kanvasbuddy.action** file in the newly created **actions** folder and restart Krita. You should now be able to find KanvasBuddy in the shortcut list when you go to **Settings** -> **Configure Krita...** -> **Keyboard Shortcuts**.
+
 Happy painting! :)
 
 ## Known issues

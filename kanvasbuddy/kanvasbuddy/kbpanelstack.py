@@ -30,6 +30,7 @@ class KBPanelStack(QStackedWidget):
         super().currentChanged.connect(self.currentChanged)
         self._panels = {}
         self._widgetParents = {}
+        self.pinned_mode = False
         
         self.mainPanel = QWidget()
         self.mainPanel.setLayout(QVBoxLayout())
@@ -85,6 +86,10 @@ class KBPanelStack(QStackedWidget):
         return self.mainPanel
 
 
+    def togglePinnedMode(self):
+        self.pinned_mode = not self.pinned_mode    
+
+
     def currentChanged(self, index):
         for i in range(0, self.count()):
             policy = QSizePolicy.Ignored
@@ -103,9 +108,10 @@ class KBPanelStack(QStackedWidget):
     
     def event(self, e):
         r = super().event(e) # Get the return value of the parent class' event method first
-        if e.type() == QEvent.WindowDeactivate:
+        if (e.type() == QEvent.WindowDeactivate and 
+            not self.pinned_mode):
             self.setCurrentIndex(0)
-        
+
         return r
 
 

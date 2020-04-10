@@ -35,11 +35,19 @@ class KBRotationSlider(KBSliderSpinBox):
         super(KBRotationSlider, self).__init__(0, 360, parent)
         self.view = Krita.instance().activeWindow().activeView()
         self.setAffixes('Canvas Rotation: ', '°')
-        self.connectValueChanged(
-            lambda:
-                # 'setRotation' is actually 'rotateCanvas'
-                self.view.canvas().setRotation(self.value() - self.view.canvas().rotation()) 
-            )
+        legacyVersionLimit = 428
+        currentVersion = int(Krita.instance().version().replace('.', '')[:3])
+
+        if currentVersion > legacyVersionLimit:
+            self.connectValueChanged(
+                lambda:
+                    self.view.canvas().setRotation(self.value()) 
+                )
+        else: # In Krita version 4.2.8 and older, 'setRotation' is actually 'rotateCanvas'
+            self.connectValueChanged(
+                lambda:
+                    self.view.canvas().setRotation(self.value() - self.view.canvas().rotation()) 
+                )
 
     def synchronize(self):
         self.setValue(self.view.canvas().rotation())

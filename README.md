@@ -21,7 +21,7 @@ KanvasBuddy features:
 
 ## New in version 0.4.1
 + This is mainly a small patch to ensure compatibility with newer versions of Krita. The developers patched a bug in the Krita API and KanvasBuddy follows suit!
-+ Pinned Panel Mode: prevent KanvasBuddy from switching back to the main panel even if you click on Krita's canvas. Enable this by clicking the tiny thumbtack in the title bar. (Credit to nickgeneratorfailed over at Krita-Artists for the suggestion)
++ Pinned Panel Mode: prevent KanvasBuddy from switching back to the main panel automatically when you click on Krita's canvas. Enable this by clicking the tiny thumbtack in the title bar. (Credit to nickgeneratorfailed over at Krita-Artists for the suggestion)
 
 ## Who is KanvasBuddy for?
 KB is best suited to someone who's already well-versed in Krita's shortcut commands. The plugin isn't meant to replace the entirety of Krita's UI, just the most essential features needed to be able to work in Canvas-Only mode.

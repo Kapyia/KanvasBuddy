@@ -17,6 +17,8 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QToolButton, QStyle
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QSize, Qt
 
+from krita import Krita
+
 class KBTitleBar(QWidget):
 
     def __init__(self, parent):
@@ -41,7 +43,17 @@ class KBTitleBar(QWidget):
         self.btn_close.setIcon(parent.style().standardIcon(QStyle.SP_DockWidgetCloseButton))
         self.btn_close.setFocusPolicy(Qt.NoFocus)
 
+        self.btn_pinned_mode = QToolButton()
+        self.btn_pinned_mode.setCheckable(True)
+        self.btn_pinned_mode.setToolTip("Toggle pinned panel mode")
+        self.btn_pinned_mode.setFixedSize(10, 10)
+        self.btn_pinned_mode.setIconSize(QSize(7,7))
+        self.btn_pinned_mode.clicked.connect(self.parent.togglePinnedMode)
+        self.btn_pinned_mode.setIcon(Krita.instance().icon('light_krita_tool_reference_images.svg'))
+        self.btn_pinned_mode.setFocusPolicy(Qt.NoFocus)
+
         self.layout.addWidget(self.title)
+        self.layout.addWidget(self.btn_pinned_mode)
         self.layout.addWidget(self.btn_close)
         self.setLayout(self.layout)
 

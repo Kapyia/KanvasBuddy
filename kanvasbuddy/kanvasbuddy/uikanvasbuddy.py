@@ -18,12 +18,13 @@ from os import path
 from krita import Krita
 
 from PyQt5.QtWidgets import QWidget, QVBoxLayout
+from PyQt5.QtCore import QSize, Qt, QEvent
 from configparser import ConfigParser
 
-from . import kbsliderbar as sldbar # Removed trailing commas, will it fix issues on debian?
+from . import kbsliderbar as sldbar 
 from . import kbbuttonbar as btnbar
 from . import kbtitlebar as title
-from . import kbpanelstack as pnlstk  
+from . import kbpanelstack as pnlstk
 
 from PyQt5.QtWidgets import QMessageBox
 def boop(text): # Print a message to a dialog box
@@ -73,6 +74,8 @@ class UIKanvasBuddy(QWidget):
         self.initCanvasOptions(config['CANVAS'], jsonData['canvasOptions'])
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 
+    def togglePinnedMode(self):
+        self.panelStack.togglePinnedMode()
 
     def initPanels(self, config, data):
         for entry in config:

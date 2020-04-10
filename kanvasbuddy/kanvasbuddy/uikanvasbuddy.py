@@ -74,9 +74,6 @@ class UIKanvasBuddy(QWidget):
         self.panelStack.main().layout().addWidget(self.canvasOptions)
 
 
-    def togglePinnedMode(self):
-        self.panelStack.togglePinnedMode()
-
     def initPanels(self, config, data):
         for entry in config:
             if config.getboolean(entry):

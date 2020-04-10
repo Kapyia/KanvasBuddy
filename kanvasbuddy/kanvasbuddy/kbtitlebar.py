@@ -41,17 +41,7 @@ class KBTitleBar(QWidget):
         self.btn_close.setIcon(parent.style().standardIcon(QStyle.SP_DockWidgetCloseButton))
         self.btn_close.setFocusPolicy(Qt.NoFocus)
 
-        self.btn_toggle_pinned = QToolButton()
-        self.btn_toggle_pinned.setCheckable(True)
-        self.btn_toggle_pinned.setFixedSize(10, 10)
-        self.btn_toggle_pinned.setToolTip("Toggle pinned panel mode")
-        self.btn_toggle_pinned.setIconSize(QSize(7,7))
-        self.btn_toggle_pinned.clicked.connect(self.parent.togglePinnedMode)
-        self.btn_toggle_pinned.setIcon(Krita.instance().icon('light_krita_tool_reference_images.svg'))
-        self.btn_toggle_pinned.setFocusPolicy(Qt.NoFocus)
-
         self.layout.addWidget(self.title)
-        self.layout.addWidget(self.btn_toggle_pinned)
         self.layout.addWidget(self.btn_close)
         self.setLayout(self.layout)
 

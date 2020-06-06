@@ -1,1 +1,9 @@
 [ ] Remove magic number in KBPanel's sizeHint. The number 12 is the height of the close button.
+
+[ ] Make use of Krita.instance().readSetting("", "maximumBrushSize", "Setting not found: Max Brush Size") to determine maximum brush size
+
+[ ] Check KB on Linux Mint Cinnamon; broken movement?
+
+[ ] Start KB in center of Krita (or screen, at least)
+
+[ ] Add settings to the config.ini: pinned mode, button sizes, slider heights(?), background transparency 

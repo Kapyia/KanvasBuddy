@@ -37,10 +37,10 @@ class UIKanvasBuddy(QWidget):
     def __init__(self, kbuddy):
         super(UIKanvasBuddy, self).__init__(Krita.instance().activeWindow().qwindow())
         # -- FOR TESTING ONLY --
-        importlib.reload(sldbar)
-        importlib.reload(btnbar)
-        importlib.reload(title)
-        importlib.reload(pnlstk)
+        # importlib.reload(sldbar)
+        # importlib.reload(btnbar)
+        # importlib.reload(title)
+        # importlib.reload(pnlstk)
 
         self.fileDir = path.dirname(path.realpath(__file__))
         
